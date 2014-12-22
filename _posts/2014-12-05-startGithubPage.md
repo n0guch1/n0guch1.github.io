@@ -1,4 +1,5 @@
 ---
+layout: style
 title: GithubPage作成
 ---
 
