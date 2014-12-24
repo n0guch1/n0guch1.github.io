@@ -32,11 +32,34 @@
                     <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
                 </div>
                 <h2> GithubPage作成 </h2>
-                <p><a href="https://help.github.com/articles/creating-pages-with-the-automatic-generator/">ここ</a>を読めば大丈夫!</p>
+                <h3> 作成手順 </h3>
 
-<p>ちなみに<br>
-title: GithubPage作成<br>
-で「:」の後には半角スペース必須</p>
+<p><a href="https://help.github.com/articles/creating-pages-with-the-automatic-generator/">ここ</a>を読めば大丈夫!<br>
+と思っていましたが何点か躓いたのでポイントをまとめます。</p>
+
+<ol>
+<li>auto でブランチ作成</li>
+<li>ローカルに作成したブランチをクローン</li>
+<li>postフォルダを作成し記事にする.mdファイルを作成</li>
+<li>一旦pushして確認。URL「http://ユーザー名.github.io/ファイル名」<br>
+※ファイル名に「-」が入っている場合は「/」に置き換える。<br>
+※ ビルドに失敗した場合はメールでビルド失敗の内容が届くので対処する<br>
+※「title: GithubPage作成」で「:」の後には半角スペース必須</li>
+<li>layoutsがないのでindexからレイアウトをそのまま拝借し、style.html作成</li>
+<li> 元々あるindex.htmlを修正</li>
+</ol>
+
+<h3> jekyllインストール </h3>
+
+<p>マークダウンを書くときにはjekyllをインストールしておくと便利。<br>
+pushせずにローカルにサーバーを立てて簡単に作成した記事を確認できる!</p>
+
+<ol>
+<li>コマンドでjekyllをインストール</li>
+<li>ymlファイルを作成</li>
+<li>ymlのあるディレクトリでjekyll server実行</li>
+<li>表示されたserverAdressにアクセスして確認</li>
+</ol>
 
             </section>
         </div>
