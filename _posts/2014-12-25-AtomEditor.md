@@ -11,7 +11,7 @@ vimをGUI上で操作できるイメージです。vim同様様々な拡張プ�
 
 <h3> 〜Atomのインストール〜 </h3>
 [Atomインストール](https://github.com/atom/atom/releases)からOSに合わせて取得。
-以下Macまたはwindowsの対応.zip
+以下MacまたはWindowsの対応.zip
 Mac：atom-mac.zip
 Windows：atom-windows.zip
 
@@ -29,7 +29,7 @@ Windows：atom-windows.zip
 開いたフォルダ、ファイルの履歴を保存し、すぐに開ける。
 
 ・Term2パッケージを入れる
-Atom上でターミナルを開けるのですぐ「gekyl server」や「git push」
+Atom上でターミナルを開けるのですぐ「jekyll server」や「git push」
 などコマンド入力が可能になる
 
 ・タブをスペース4つ分に変更
