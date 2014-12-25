@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <h2> Atom始めました </h2>
+                <h3> 〜Atomとは〜 </h3>
+
+<p>プログラミング用(開発者用)のテキストエディタです。<br>
+vimをGUI上で操作できるイメージです。vim同様様々な拡張プラグインが存在するので、<br>
+自分のスタイルに合わせたエディタを作成可能。また標準でMarkdownプレビュー機能を備えているのでwindowsのMarkdownプレビュー用エディタとしても便利です。</p>
+
+<h3> 〜Atomのインストール〜 </h3>
+
+<p><a href="https://github.com/atom/atom/releases">Atomインストール</a>からOSに合わせて取得。<br>
+以下Macまたはwindowsの対応.zip<br>
+Mac：atom-mac.zip<br>
+Windows：atom-windows.zip</p>
+
+<h3> 〜インストール後にやったこと〜 </h3>
+
+<p>・社内などでプロキシがある場合は突破する<br>
+1. 「/userhome/.atom」 に 「apmrc」ファイル作成<br>
+2. 「https-proxy = https://ホスト:ポート番号」を記述<br>
+3. 「control(macはcommand) + , 」を押してpackagesで適当なパッケージを検索できたら完了</p>
+
+<p>・japanese-wrapパッケージを入れる<br>
+日本語を折り返し表示してくれる。デフォルトは改行が入らないと横にずらずらとなってしまいます。</p>
+
+<p>・open-recentパッケージを入れる<br>
+開いたフォルダ、ファイルの履歴を保存し、すぐに開ける。</p>
+
+<p>・Term2パッケージを入れる<br>
+Atom上でターミナルを開けるのですぐ「gekyl server」や「git push」<br>
+などコマンド入力が可能になる</p>
+
+<p>・タブをスペース4つ分に変更<br>
+「control(macはcommand) + , 」のTab Lengthを4に変更<br>
+デフォルトのタブスペースが2つだった・・・</p>
+
+<p>・SaveSrttionパッケージを入れる<br>
+前回のセッション(開いていた状態)からスタートに変更する<br>
+便利でしたが、毎回前回の開いていた状態からになるので好みがありそう</p>
+
+<p>・等幅フォントに変更<br>
+フォントが中華フォントなので等幅フォントに変更する<br>
+「上記タブAtom → Open your stylesheet」<br>
+表示されたstyles.leesの内容を以下に変更</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/*
+* Your Stylesheet
+*
+* This stylesheet is loaded when Atom starts up and is reloaded automatically
+* when it is changed.
+*
+* If you are unfamiliar with LESS, you can read more about it here:
+* http://www.lesscss.org
+*/
+
+.tree-view {
+    font-family: &quot;Meiryo&quot;;
+    font-size: 14px;
+}
+
+atom-text-editor {
+    font-family: &quot;Osaka-Mono&quot;;
+}
+
+atom-text-editor .cursor {
+}
+
+.markdown-preview { font-family: &quot;Meiryo&quot;; h1, h2, h3, h4, h5, h6 { font-family: &quot;Meiryo&quot;; } }
+</code></pre></div>
+<h3> 〜感想〜 </h3>
+
+<p>デフォルトのままでも十分使えたので非常にとっつきやすい印象でした。<br>
+インストール後面倒な設定も特になく使えたのが好印象です。<br>
+さらに使い慣れれば開発速度が確然と上がるのは間違いないでしょう。</p>
+
+            </section>
+        </div>
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>
