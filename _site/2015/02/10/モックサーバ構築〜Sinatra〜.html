@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <h2> モックサーバ構築 〜Sinatra〜 </h2>
+                <h3> 〜モックサーバとは〜 </h3>
+
+<p>「モック」とは、テストなどで用意された見せかけのオブジェクトです。<br>
+よくいう「モックアップ」は実物とほぼ同様に似せて作られたオブジェクトとになります。<br>
+ここで言う「モックサーバー」は実物に似せた見せかけのサーバーになります。</p>
+
+<h3> 〜モックサーバの利点〜 </h3>
+
+<p>開発の規模が大きくなってくるとWebAPIサーバーをたてる事が多々あると思います。<br>
+その過程でテストがしたい時、毎度サーバーにアクセスしたりするのが面倒な時や、<br>
+まだAPIサーバーが開発途中で検証しづらい時にモックサーバをたてる事で手軽にテストをする事が出来ます。</p>
+
+<h3> 〜Sinatraとは〜 </h3>
+
+<p>RubyによるWebアプリケーションを簡単にかつ素早く作成するためのフレームワークです。<br>
+たった数行でローカルにサーバーを立てる事が出来ます。</p>
+
+<h3> 〜インストール〜 </h3>
+
+<p>1.Rubyが必要ですが最近のMacなら標準で2系が入ってるのでインストール部分は割愛します</p>
+
+<p>2.gemを使ってインストール<br>
+「gem install sinatra」 をコンソールで実行。環境によっては「sudo gem install sinatra」を実行。</p>
+
+<p>3.Rubyファイルを作成<br>
+適当なフォルダに以下の内容で「hello.rb」を作成します。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">require &#39;sinatra&#39;
+require &#39;json&#39;
+
+#urlで受け取った「:object_id」を「params[:object_id]」で返す
+get &#39;/hello/:class_name/:object_id&#39; do
+    object = {
+        objectId: params[:object_id],
+        class_name: params[:class_name],
+        Message: &quot;hello!&quot;
+    }
+
+    object.to_json
+end
+
+#bodyが空の場合は400エラーそれ以外はbodyを返す
+post &#39;/hello&#39; do
+    body = request.body.read
+
+    if body == &#39;&#39;
+        status 400
+        else
+        body.to_json
+    end
+end
+</code></pre></div>
+<p>4.サーバーをたてる<br>
+作成したファイルのディレクトリで「ruby hello.rb」を実行</p>
+
+<p>5.アクセス-get-<br>
+ブラウザを立ち上げてURLに「http:///localhost:4567//hello/GetHellow/n0guch1」を入力。<br>
+成功した場合は、ブラウザにGetされた結果のJSONデータが表示されます。</p>
+
+<p>6.アクセス-post-<br>
+コンソールで「curl -v -d &#39;hello!!&#39; http://localhost:4567/hello -w &quot;\n%{http_code}\n&quot;」を実行。<br>
+成功した場合は、コンソールにPostされたbodyデータとステータスコードが表示されます。<br>
+bodyを空で「curl -v -d &#39;&#39; http://localhost:4567/hello -w &quot;\n%{http_code}\n&quot;」実行。<br>
+rubyに書いてある判定に引っかかりエラーコード400が返ります。</p>
+
+<p>ちなみに以下のコマンドでも結果は同じになります。<br>
+「curl -v -H &quot;Accept: application/json&quot; -H &quot;Content-type: application/json&quot; -X POST -d &#39;hello!!!&#39; http://localhost:4567/hello -w &quot;\n%{http_code}\n&quot;」</p>
+
+<p>curlオプション解説<br>
+-v : リクエストを「&gt;」でレスポンスを「&lt;」で表時してくれる<br>
+-H : ヘッダーの追加<br>
+-X : メソッド指定<br>
+-d : POSTする本体(body)<br>
+-w &quot;\n%{http_code}\n&quot; : ステータスコード表示</p>
+
+<h3> 〜機能拡張〜 </h3>
+
+<p>デフォルトのままだと.rbファイルを直接修正しても、サーバーを再度立ち上げ直さないと修正が反映されません。<br>
+以下の方法で修正後にブラウザリロードで修正が反映されるようにします。</p>
+
+<ol>
+<li>「gem install sinatra-contrib」を実行。環境によってはsudoを入れる。</li>
+<li>修正が反映されたいファイル(ここではhello.rb)に「require &#39;sinatra/reloader&#39;」を記述</li>
+</ol>
+
+<h3> 〜感想〜 </h3>
+
+<p>かなり手軽にAPIテストを出来たので、APIサーバーにアクセス出来ない or アクセスが大変な時は、<br>
+モックサーバーを使ってテストするのが良いです。</p>
+
+            </section>
+        </div>
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>
