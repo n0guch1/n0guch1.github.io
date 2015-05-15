@@ -84,6 +84,8 @@ Google+APIは使いたくなかったのですが、UserId取得の仕方が思�
 
 package mb.cloud.nifty.com.googleoauthtest;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
@@ -115,7 +117,7 @@ public class MainActivity extends Activity implements
         View.OnClickListener{
 
     String accountName;
-    String personId;
+    String userId;
     String email;
     String authToken;
 
@@ -288,20 +290,16 @@ public class MainActivity extends Activity implements
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
             String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-            String personId = currentPerson.getId();
             String personName = currentPerson.getDisplayName();
 
-            Log.v("tag","ID:"+personId);//id
-            Log.v("tag","アカウント名:"+personName);//アカウント名
-            Log.v("tag","Eメール:"+email);//メールアドレス
-            this.personId = personId;
+            //UserId取得は以下メソッドでも可能
+            //String userId = currentPerson.getId();
+            //this.userId = userId;
+
             this.accountName = personName;
             this.email = email;
 
             //取得データをviewに反映
-            TextView personIdView = (TextView) findViewById(R.id.personId);
-            personIdView.setText("【ID】 : "+this.personId);
-
             TextView accountNameView = (TextView) findViewById(R.id.accountName);
             accountNameView.setText("【アカウント名】 : "+this.accountName);
 
@@ -310,12 +308,10 @@ public class MainActivity extends Activity implements
 
             //authTokenの取得
             authToken();
-
-
         }
     }
 
-    private static final String scope = "oauth2:" + Scopes.PROFILE;
+    private static final String scope = "oauth2:"+Scopes.PROFILE;
     static final int REQUEST_AUTHORIZATION = 2;
 
     /**
@@ -326,8 +322,19 @@ public class MainActivity extends Activity implements
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    authToken = GoogleAuthUtil.getToken(MainActivity.this, email, scope);
+                    //非推奨
+                    //authToken = GoogleAuthUtil.getToken(MainActivity.this, email, scope);
 
+                    AccountManager manager = AccountManager.get(MainActivity.this);
+                    Account[] accountArray = manager.getAccountsByType("com.google");
+                    for(Account account : accountArray){
+                        //ログイン中のアカウントのAuthData取得
+                        if(account.name.equals(email)){
+                            authToken = GoogleAuthUtil.getToken(MainActivity.this, account, scope);
+                            //メインスレッドとは別で実行する
+                            userId = GoogleAuthUtil.getAccountId(MainActivity.this, email);
+                        }
+                    }
                 } catch (UserRecoverableAuthException e) {
                     startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
                     Log.v("tag", "UserRecoverableAuthException:" + e);
@@ -343,9 +350,19 @@ public class MainActivity extends Activity implements
 
             @Override
             protected void onPreExecute() {
-                Log.v("tag","AuthToken:"+authToken);
-                TextView AuthTokenView = (TextView) findViewById(R.id.AuthToken);
+                //AuthTokenをViewに反映
+                TextView AuthTokenView = (TextView) findViewById(R.id.authToken);
                 AuthTokenView.setText("【AuthToken】 : "+authToken);
+
+                //UserIDをViewに反映
+                TextView personIdView = (TextView) findViewById(R.id.userId);
+                personIdView.setText("【ID】 : "+userId);
+
+                //ログイン情報ログ出力
+                Log.v("tag","ID:"+userId);//UserId
+                Log.v("tag","アカウント名:"+accountName);//アカウント名
+                Log.v("tag","Eメール:"+email);//メールアドレス
+                Log.v("tag","AuthToken:"+authToken);//トークン
             }
         };
         task.execute(new Void[0]);
@@ -401,7 +418,6 @@ public class MainActivity extends Activity implements
         android:id="@+id/accountName"
         android:textSize="10dp"
         android:layout_below="@+id/title"
-        android:layout_toStartOf="@+id/title"
         android:layout_marginTop="34dp" />
 
     <TextView
@@ -429,7 +445,7 @@ public class MainActivity extends Activity implements
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="AuthToken : 未ログイン"
-        android:id="@+id/AuthToken"
+        android:id="@+id/authToken"
         android:textSize="10dp"
         android:layout_below="@+id/email"
         android:layout_toLeftOf="@+id/title" />
@@ -438,10 +454,10 @@ public class MainActivity extends Activity implements
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="ID : 未ログイン"
-        android:id="@+id/personId"
+        android:text="UserID : 未ログイン"
+        android:id="@+id/userId"
         android:textSize="10dp"
-        android:layout_below="@+id/AuthToken"
+        android:layout_below="@+id/authToken"
         android:layout_toLeftOf="@+id/title" />
 
 </RelativeLayout>
