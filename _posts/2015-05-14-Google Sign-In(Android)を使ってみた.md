@@ -7,7 +7,7 @@ title: Google Sign-In(Android)を使ってみた
 
 <h3> 〜Google Sign-Inとは〜 </h3>
 
-公式:[Google Sign-In](https://developers.google.com/identity/sign-in/android/)
+公式:[Google Sign-In(Android)](https://developers.google.com/identity/sign-in/android/)
 Google認証をライブラリを使って手軽に行うことが出来ます。
 認証を行うことでGoogleが提供するAPI(Google DriveやGoogle Mapsなど)を利用することが出来ます。
 
@@ -21,7 +21,7 @@ Google認証をライブラリを使って手軽に行うことが出来ます�
 
 1. [Google Developers Console. ](https://console.developers.google.com/project)でプロジェクト作成&設定
 2. Android Studio で対象のプロジェクトに「Google play Services」の導入
-3. GoogleApiClientの初期化になります
+3. GoogleApiClientの初期化
 
 ◆詰まりポイント
 1.の場合
