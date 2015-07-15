@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> AndroidStudioを使ってみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <h3> 〜AndroidStudioとは〜 </h3>
+
+<p>eclipseに変わるAndroidアプリケーション開発環境。<br>
+ここ最近のAndroidアプリケーション新規開発案件は、AndroidStudioが多いらしい。<br>
+それと公式もeclipseよりもAndroidStudioを押してきている模様。</p>
+
+<h3> 〜インストール〜 </h3>
+
+<p>参考：<a href="http://thinkit.co.jp/story/2015/02/25/5644/page/0/1#h1-2">ゼロからわかるAndroid Studioインストール手順（Mac版）</a></p>
+
+<ol>
+<li><p>JDKをインストール<br>
+※eclipseを使っていて既にある場合は不要。<br>
+しかしverが古い場合はAndroidStudioが動かないので要注意。</p></li>
+<li><p>AndroidStudioをインストール<br>
+・http://developer.android.com/intl/ja/sdk/index.html　の［Download  ndroid Studio for Mac］からインストーラーをダウンロード<br>
+・ほとんど指示通りに進めて行けばOK<br>
+※既にAndroidStudioを入れている場合は、「I want to import ...」を選択すると設定内容を引き継げる。</p></li>
+</ol>
+
+<h3> 〜実践〜 </h3>
+
+<p>参考：<a href="http://corgi-lab.com/environment/android-studio-hello-world/">「Android Studio」でHello World</a></p>
+
+<ol>
+<li>「New Project」を選択</li>
+<li>アプリ名、保存場所を設定</li>
+<li>最小ビルドターゲットAndroid verを設定</li>
+<li>アクティビティの設定
+後はRunするだけでHelloWorldがエミュレータに表示される</li>
+</ol>
+
+<h3> 〜オススメ設定〜 </h3>
+
+<ol>
+<li>行番号を付ける<br>
+Menu &gt; Preferences &gt; Editor &gt; Appearance &gt; Show line numbers</li>
+<li>自動インポート ※eclipseの様にマウスオーバーライドでimport出来ないのでONにしておく<br>
+Menu &gt; Preferences &gt; Editor &gt; Auto Import &gt; Optimize import on the fly<br>
+Menu &gt; Preferences &gt; Editor &gt; Auto Import &gt; Add unambiguous on the fly</li>
+<li>マウスオーバーでJavaDocの表示<br>
+Menu &gt; Preferences &gt; Editor &gt; Show quick doc on mouse over</li>
+<li>ショートカットの変更<br>
+Preferences &gt; Keymap<br>
+※eclipseのショートカットキーと同じにも出来るが、<br>
+結局AndroidStudioになれるために特に変更はしなかった。</li>
+<li>ショートカットの一覧表示<br>
+Help &gt; Default Keymap Reference</li>
+</ol>
+
+<h3> 〜良く使うショートカット〜 </h3>
+
+<table><thead>
+<tr>
+<th style="text-align: left">概要</th>
+<th style="text-align: right">コマンド</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: left">自動フォーマット</td>
+<td style="text-align: right">Command + Option + L</td>
+</tr>
+<tr>
+<td style="text-align: left">定義にジャンプ</td>
+<td style="text-align: right">Command + B</td>
+</tr>
+<tr>
+<td style="text-align: left">グレップ</td>
+<td style="text-align: right">Command + Shift + F</td>
+</tr>
+<tr>
+<td style="text-align: left">実行</td>
+<td style="text-align: right">Control + R</td>
+</tr>
+<tr>
+<td style="text-align: left">デバッグ実行</td>
+<td style="text-align: right">Control + D</td>
+</tr>
+<tr>
+<td style="text-align: left">JavaDoc自動生成</td>
+<td style="text-align: right">/** + Enter</td>
+</tr>
+</tbody></table>
+
+<h3> 〜感想〜 </h3>
+
+<p>eclipseよりシンプルになっていて使いやすかった。<br>
+ショートカットやフォルダ構成がeclipseと違うので慣れが必要。<br>
+特にショートカットはeclipseと混合する。</p>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

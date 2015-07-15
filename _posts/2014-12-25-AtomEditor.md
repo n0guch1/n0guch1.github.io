@@ -1,6 +1,8 @@
 ---
 layout: style
 title: Atom始めました
+category: その他
+summary: 最近噂のテキストエディタAtomの使い方について
 ---
 
 <h3> 〜Atomとは〜 </h3>

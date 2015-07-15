@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Kii Cloud SDK使ってみた 〜Android〜 </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <h3> 〜mBaaSとは〜 </h3>
+
+<p>mBaaSとはサーバー構築不要でDBに必要な機能をRestAPIで提供してくれるサービス。<br>
+SDKとはJavaやobjective-cと言った各言語でmBaaSの機能を簡単に実装出来るようにしてくれるフレームワーク。(中身はRestAPIを叩いている)</p>
+
+<h3> 〜Kii Cloud とは〜 </h3>
+
+<p>mBaaSを提供している会社の一つで海外展開や会員データを独自のストレージで提供しセキュリティ&amp;レスポンスタイム向上など、他のmBaaSとの差別化を行っている<br>
+※普通のmBaaSはユーザー同士が同じ領域を共有して、アクセス制限などをかけている。</p>
+
+<h3> 〜Kii単語まとめ〜 </h3>
+
+<p>KiiのmBaaSを使うためには最低限以下のKii専用単語を理解すること。</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center">Kii単語</th>
+<th style="text-align: center">説明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center"><a href="http://documentation.kii.com/ja/starts/cloudsdk/cloudoverview/usergroup/">Group</a></td>
+<td style="text-align: center">ユーザーオブジェクトの集まり(Role)</td>
+</tr>
+<tr>
+<td style="text-align: center"><a href="http://documentation.kii.com/ja/starts/cloudsdk/cloudoverview/bucket/">Bucket</a></td>
+<td style="text-align: center">オブジェクトの入れ物。フォルダをイメージすると良い(クラス名)</td>
+</tr>
+<tr>
+<td style="text-align: center"><a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-push-notification/push_kiicloud/push-to-user/">Topic</a></td>
+<td style="text-align: center">プッシュメッセージ送信用チャンネル (チャンネル)</td>
+</tr>
+<tr>
+<td style="text-align: center"><a href="http://documentation.kii.com/ja/starts/cloudsdk/cloudoverview/bucketscope/">Scope</a></td>
+<td style="text-align: center">簡単なアクセス制御。さらに細かくアクセス制御する場合はACLで設定する</td>
+</tr>
+</tbody></table>
+
+<h3> 〜Push通知まとめ〜 </h3>
+
+<p>GCMとJPushによるプッシュ機能を利用できます。<br>
+中国ではGCMのプッシュ通知がかなり不安定なので中国で提供しているJPushなるものを使うらしい。<br>
+試してみようと登録サイトに行ってみましたが、諸々中国語での説明で信用が出来なかったためGCMのプッシュ通知のみ試してみました。</p>
+
+<p>大きく分けて三つのPush機能を提供していました。<br>
+1. <a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-push-notification/push_kiicloud/push-to-app/">オブジェクトの更新がされたら指定先にプッシュ通知を飛ばす<br>例：ある Bucket 内に新たな Object が作成された際にプッシュ通知を受けるなど</a><br>
+2. <a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-push-notification/push_kiicloud/push-to-user/">Topicを指定してプッシュ通知を飛ばす<br>例：グループメンバー間でプッシュメッセージを交換するなど</a><br>
+3. <a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-push-notification/push_kiicloud/direct-push/">ユーザーを指定してプッシュ通知を飛ばす<br>例：ある特定のユーザーに対して直接アラートを送るなど</a></p>
+
+<p>今回は3番を試してみました。<br>
+導入はチュートリアル通りに行けば1時間かからずに実装出来ます。<br>
+何通かプッシュ通知を送りましたが速度も早くすぐに届きました。<br>
+実装内容はユーザーオブジェクトに端末情報を紐づけているだけでした。</p>
+
+<h3> 〜Good〜 </h3>
+
+<ul>
+<li><a href="http://documentation.kii.com/ja/guides/android/managing-push-notification/direct-push/">ユーザーを対象にプッシュ送信が出来る</a></li>
+<li><a href="http://documentation.kii.com/ja/guides/android/managing-push-notification/push-to-app/">オブジェクトの値に変更があった時のプッシュ送信が簡単に出来る</a></li>
+<li><a href="http://documentation.kii.com/ja/guides/android/securing-data/">よく使われるアクセス制御をScopeという形で提供している</a></li>
+<li><a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-users/accesstoken/">セッショントークンの有効期限を変更出来る(デフォルトはほぼ無期限)</a></li>
+<li><a href="http://documentation.kii.com/ja/starts/cloudsdk/managing-users/external/">別サービスアカウント認証が豊富</a></li>
+<li><a href="http://documentation.kii.com/ja/guides/android/managing-users/passwords/">パスワードの変更が出来るメソッドが提供されている</a></li>
+<li><a href="http://documentation.kii.com/ja/samples/push-notifications/push-notifications-android/configure-eclipse/">Google Play servicesの導入手順が素晴らしくわかりやすかった</a></li>
+<li><a href="http://documentation.kii.com/ja/guides/android/quickstart/adding-kii-push-notification-to-your-application/adding-push-notification-gcm/">同期/非同期がスイッチで見れる</a></li>
+</ul>
+
+<h3> 〜Bad〜 </h3>
+
+<ul>
+<li><a href="http://documentation.kii.com/ja/guides/android/">きめ細かいエラー処理(好み次第)</a>
+<br>→開発者はtry/catchが好きなのだろうか。エラークラスが多い。エラーコードで切り分け出来るようにすれば良いのでは。</li>
+<li><a href="http://documentation.kii.com/references/dotnet/storage/latest/KiiCorp.Cloud.Storage/index.html">Javadocが恐ろしいほど見づらい。クラスが多い</a>
+<br>→エラークラスだけでもまとめて欲しい</li>
+<li><a href="http://documentation.kii.com/ja/samples/push-notifications/push-notifications-android/configure-eclipse/">eclipseとAndroidStadioの説明が同一ページに記載されている。</a>
+<br>→eclipseを使う人にとって、もう片方は不要な情報なので、ページを分けるかスイッチで切り替えられると良いと思った</li>
+<li><a href="http://documentation.kii.com/ja/samples/push-notifications/push-notifications-android/implement-initial-code/">Push通知時のNotificationの説明が無い。自分で調べて自前で実装しないといけない。</a>
+<br>→SDK内で吸収または実装の仕方をドキュメントに記載していても良いと思った</li>
+<li><a href="http://documentation.kii.com/ja/guides/">コンパネのマニュアルがない。また表示を日本語対応して欲しい</a>
+<br>→マニュアルがなかったので実際に使ってみて覚えた。英語のみなので英語苦手エンジニアにも優しくして欲しい。逆を言うと英語ユーザーに日本語のみの提供も辛いのだろうなと思った。</li>
+</ul>
+
+<h3> 〜感想〜 </h3>
+
+<ol>
+<li>KiiCloudを使いこなすために覚えなければいけない「Kii単語」が多すぎるなと思いました。<br>
+使いこなせば便利なんだろうけど非常に取っ付きにくい印象でした。</li>
+<li>Kii単語以外の提供機能やSDK導入方法がほとんど競合と思われるParceと一緒だった。</li>
+<li>Androidプッシュ通知のチュートリアルも試してみましたがなんとNotification機能の説明はなく自前で実装する事になりました。<br>
+プッシュ通知と言ったら「通知が来たらステータスバーに表示されてタップしたら消えてくれる」というのを求めていたのでその辺りの実装が無かったのが残念でした。<br>
+Notificationを実装していて思ったのが「タップしたら消える」処理を入れないと通知って消えないんですね・・<br></li>
+<li>思っていた以上にKiiCloudを使ってみた系のブログがなかった。検索にも上位に引っかからないのでそんなに使われていないのだろうか。</li>
+<li>基本的にユーザーオブジェクトに紐づけられてく構造だった。</li>
+<li>ある一定レベル以上の「広く浅く」の機能が揃っていていいなと思った。</li>
+<li>やっぱり取っ付きにくいのと日本語対応が微妙だったのが気になりました。</li>
+</ol>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

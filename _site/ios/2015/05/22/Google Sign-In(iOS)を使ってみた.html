@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Google Sign-In(iOS)を使ってみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <p>今回実装したコードは一番下に乗せてあります。</p>
+
+<h3> 〜Google Sign-Inとは〜 </h3>
+
+<p>公式:<a href="https://developers.google.com/identity/sign-in/ios/">Google Sign-In(iOS)</a><br>
+前回の記事で紹介したので割愛します。</p>
+
+<h3> 〜手順1 セットアップ〜 </h3>
+
+<p>公式手順1:<a href="https://developers.google.com/identity/sign-in/ios/getting-started">Start integrating Google Sign-In into your iOS app</a></p>
+
+<p>公式手順に沿って実装して行きます。<br>
+大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li><a href="https://console.developers.google.com/project">Google Developers Console. </a>でプロジェクト作成&amp;設定</li>
+<li>Xcode で対象のプロジェクトの設定</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+2.の場合<br>
+・「GoogleSignIn.bundle」を <span style="color:red"><strong>Build Phases &gt; Copy Bundle Resources</strong></span> に追加すること<br>
+・ <span style="color:red"><strong>Info &gt; URL Types</strong></span> に 二つのURL Typesを追加すること<br>
+→例 1つ目:<br>
+Identifierに「クライアントキー.apps.googleusercontent.com」(デベロッパーコンソールから取得)<br>
+URK Schemesに「com.googleusercontent.apps.クライアントキー」<br>
+→例 2つ目:<br>
+Identifierに「iOSSDL」(任意の文字列)<br>
+URK Schemesに「com.push.googleAuthTest」(アプリのBundle Identifier)</p>
+
+<h3> 〜手順2 Google認証実装〜 </h3>
+
+<p>公式手順2：<a href="https://developers.google.com/identity/sign-in/ios/sign-in">Google Sign-In for iOS</a></p>
+
+<p>セットアップが終わったところで、実装コードの導入になります。<br>
+大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li>SignInButtonを作成</li>
+<li>SignOutButtonを作成</li>
+<li>認証失敗時/成功時の機能を作成</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+1.の場合<br>
+・StoryBoardにSignInButtonを追加する時は「Button」ではなく「View」を追加する<br>
+→そしてViewのCustomClaussのClassに「GIDSignInButton」を設定する<br>
+・実機ビルド時にボタンが実機の画面に収まる様配置すること</p>
+
+<h3> 〜手順3 AuthToken,UserIdの取得〜 </h3>
+
+<p>公式手順3：<a href="https://developers.google.com/identity/sign-in/ios/people">Getting profile information</a></p>
+
+<ol>
+<li>認証失敗時/成功時のメソッドでIDとトークンを取得</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+特になし</p>
+
+<h3> 〜実装コード〜 </h3>
+
+<p>◆ViewController.h</p>
+<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+<span class="cp">#import &lt;GoogleSignIn/GoogleSignIn.h&gt;</span>
+
+
+<span class="k">@interface</span> <span class="nc">ViewController</span> : <span class="bp">UIViewController</span> <span class="o">&lt;</span><span class="n">GIDSignInDelegate</span><span class="o">&gt;</span>
+
+<span class="c1">//デフォルトデザインのサインボタン</span>
+<span class="k">@property</span><span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">GIDSignInButton</span> <span class="o">*</span><span class="n">signInButton</span><span class="p">;</span>
+
+<span class="c1">//オリジナルのサインアウトボタン</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">signOutButton:</span><span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+
+<span class="c1">//オリジナルのサインインボタン</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">otiginalSignInButton:</span><span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+
+<span class="k">@end</span>
+</code></pre></div>
+<p>◆ViewController.m</p>
+<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="cp">#import &quot;ViewController.h&quot;</span>
+
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//Google認証初期化</span>
+    <span class="c1">//[GIDSignIn sharedInstance].clientID = @&quot;370894706694-8kknc502pnlncbrnoone3q8fhc55vq66.apps.googleusercontent.com&quot;;</span>
+    <span class="n">GIDSignIn</span> <span class="o">*</span><span class="n">signInManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">GIDSignIn</span> <span class="n">sharedInstance</span><span class="p">];</span>
+    <span class="n">signInManager</span><span class="p">.</span><span class="n">clientID</span> <span class="o">=</span> <span class="s">@&quot;370894706694-8kknc502pnlncbrnoone3q8fhc55vq66.apps.googleusercontent.com&quot;</span><span class="p">;</span>
+    <span class="n">signInManager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span><span class="c1">//コールバック設定</span>
+    <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+    <span class="c1">// Dispose of any resources that can be recreated.</span>
+<span class="p">}</span>
+
+<span class="c1">//ログイン時のコールバック</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">signIn:</span><span class="p">(</span><span class="n">GIDSignIn</span> <span class="o">*</span><span class="p">)</span><span class="nv">signIn</span>
+<span class="nf">didSignInForUser:</span><span class="p">(</span><span class="n">GIDGoogleUser</span> <span class="o">*</span><span class="p">)</span><span class="nv">user</span>
+     <span class="nf">withError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">error</span><span class="o">==</span><span class="nb">nil</span><span class="p">){</span>
+    <span class="c1">// Perform any operations on signed in user here.</span>
+    <span class="c1">//self.statusField.text = @&quot;Signed in user&quot;;</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;ログイン成功&quot;</span><span class="p">);</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Id:%@&quot;</span><span class="p">,</span><span class="n">user</span><span class="p">.</span><span class="n">userID</span><span class="p">);</span>
+    <span class="n">GIDAuthentication</span> <span class="o">*</span><span class="n">authData</span> <span class="o">=</span> <span class="n">user</span><span class="p">.</span><span class="n">authentication</span><span class="p">;</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;accessToken:%@&quot;</span><span class="p">,</span><span class="n">authData</span><span class="p">.</span><span class="n">accessToken</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;ログイン失敗:%@&quot;</span><span class="p">,</span><span class="n">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//[[GIDSignIn sharedInstance] disconnect]用コールバック</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">signIn:</span><span class="p">(</span><span class="n">GIDSignIn</span> <span class="o">*</span><span class="p">)</span><span class="nv">signIn</span>
+<span class="nf">didDisconnectWithUser:</span><span class="p">(</span><span class="n">GIDGoogleUser</span> <span class="o">*</span><span class="p">)</span><span class="nv">user</span>
+     <span class="nf">withError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+    <span class="c1">// Perform any operations when the user disconnects from app here.</span>
+    <span class="c1">//self.statusField.text = @&quot;Disconnected user&quot;;</span>
+<span class="p">}</span>
+
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">signOutButton:</span><span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;ログアウト実行&quot;</span><span class="p">);</span>
+     <span class="c1">//[[GIDSignIn sharedInstance] disconnect];</span>
+    <span class="p">[[</span><span class="n">GIDSignIn</span> <span class="n">sharedInstance</span><span class="p">]</span> <span class="n">signOut</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">otiginalSignInButton:</span><span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;ログイン実行&quot;</span><span class="p">);</span>
+    <span class="p">[[</span><span class="n">GIDSignIn</span> <span class="n">sharedInstance</span><span class="p">]</span> <span class="n">signIn</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div>
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

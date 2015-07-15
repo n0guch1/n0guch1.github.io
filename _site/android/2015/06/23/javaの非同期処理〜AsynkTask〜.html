@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> javaの非同期処理 〜AsynkTask〜 </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <h3> 〜AsynkTaskとは〜 </h3>
+
+<p>公式：http://developer.android.com/reference/android/os/AsyncTask.html</p>
+
+<p>Javaでよく使われる非同期処理。<br>
+使われる理由としては、</p>
+
+<ol>
+<li>必要に応じて非同期処理と画面更新処理を行うメソッドがある</li>
+<li>キャンセル処理を行うメソッドがある</li>
+<li>パラメーターが渡せる</li>
+<li>実装が簡単
+などがあげられます。
+キャンセル処理やメインスレッド処理を非同期処理と組み合わせる場合に、
+自前で実装しなくて楽になります。</li>
+</ol>
+
+<h3> 〜主な主要メソッド〜 </h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">・AsyncTask&lt;Params, Progress, Result&gt;
+
+第1引数…メインスレッドから別スレッドに渡すパラメーターの方
+※ doInBackground()の引数の型
+※ 非同期処理にパラメータを渡したい場合に扱う。特になければnullを指定する
+
+第2引数…進捗度合を表示する時に利用したい型
+※ onProgressUpdate()の引数の型
+※ 進捗度を計りたい場合に扱う。特になければnullを指定する
+
+第3引数…バックグラウンド処理完了時に受け取る型
+※ doInBackground()の戻り値の型
+※ onPostExecute()の引数の型
+※ 非同期処理からメインスレッドに結果(値)を受け取りたい時に扱う
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">・doInBackground()
+別スレッドで実行されます。
+この処理のみ必ず実装しなければいけません。
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">・onPreExecute()
+doInBackground実行直前にメインスレッドで処理を行います。
+非同期前にメインスレッドで実行したい処理を記述します。
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">・onProgressUpdateは()
+非同期処理の進行状況をプログレスバーで表示する場合などに扱います。
+doInBackgroundのfor文内で呼ぶイメージです
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">・onPostExecute()
+doInBackground実行直後にメインスレッドで実行されます
+doInBackgroundから戻り値で結果を受け取れます
+</code></pre></div>
+<p>※ onPreExecute() &gt;  doInBackground() &gt; onPostExecute() の実行順で呼ばれます<br>
+onProgressUpdate()はdoInBackground()内で呼びます</p>
+
+<p>※ 無名メソッドで処理する場合は、上記メソッド内で変数を扱う場合、<br>
+final修飾子を付けるかクラス変数(static)に持たせる必要があります。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">・cancel(boolean)
+非同期処理をキャンセルします
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">・onCancelled()
+キャンセル後に実行されます。
+</code></pre></div>
+<h3> 〜実装コード〜 </h3>
+
+<p>例：取りあえず特にパラメータや戻り値を気にしない場合のAsynkTask</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Void</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">//非同期処理</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}.</span><span class="na">execute</span><span class="o">();</span>
+</code></pre></div>
+<p>例:パラメータ、戻り値、キャンセルを意識したAsyncTask</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Number</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Number</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Number</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//非同期処理</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;パラメータ:&quot;</span><span class="o">+</span><span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="n">statusCode</span> <span class="o">=</span> <span class="mi">200</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">statusCode</span><span class="o">;</span><span class="c1">//このreturnしたオブジェクトがonPostExecute()に渡される</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">Number</span> <span class="n">resultCode</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//非同期後の処理　メインスレッドでの処理</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;通信結果:&quot;</span><span class="o">+</span><span class="n">resultCode</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCancelled</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//キャンセル処理</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;キャンセル&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="c1">//AsyncTask実行</span>
+<span class="n">task</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&quot;POST&quot;</span><span class="o">,</span><span class="kc">null</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span><span class="c1">//ここの第一引数がdoInBackground()に渡される</span>
+
+<span class="c1">//AsyncTaskキャンセル</span>
+<span class="n">task</span><span class="o">.</span><span class="na">cancel</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</code></pre></div>
+<h3> 〜非同期待ち〜 </h3>
+
+<p>非同期処理をメインスレッドで待ちたい場合もあります。<br>
+例えば単体テストで非同期のテスト結果を待ちたい場合など。</p>
+
+<p>そういう時に便利なのが「CountDownLatch」です。</p>
+
+<p>1.カウントダウン用の引数を渡してインスタンスを生成し、非同期になんらかの形で渡します。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">CountDownLatch</span> <span class="n">latch</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">CountDownLatch</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</code></pre></div>
+<p>2.カウントダウンが0になるのを待ちます</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">latch</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+</code></pre></div>
+<p>3.非同期のコールバック内でカウントします</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">latch</span><span class="o">.</span><span class="na">countDown</span><span class="o">();</span><span class="c1">//-1</span>
+</code></pre></div>
+<p>これでlatchのプロパティが0になるとawait()後の処理が実行されます。</p>
+
+<p>先ほどのAsynkTaskと組み合わせると以下のような形になります。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">//非同期内で実行するためにfinal修飾子をつける</span>
+<span class="kd">final</span> <span class="n">CountDownLatch</span> <span class="n">latch</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">CountDownLatch</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Void</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">//非同期処理</span>
+        <span class="n">latch</span><span class="o">.</span><span class="na">countDown</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}.</span><span class="na">execute</span><span class="o">();;</span>
+
+<span class="c1">//非同期待ち</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">latch</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;完了&quot;</span><span class="o">);</span>
+</code></pre></div>
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

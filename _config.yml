@@ -2,3 +2,8 @@ markdown: redcarpet
 highlighter: pygments
 redcarpet:
     extensions: ["no_intra_emphasis", "fenced_code_blocks", "tables", "hard_wrap"]
+
+# category archive
+category_title_prefix:  記事一覧
+category_title_suffix: ' '
+category_dir: category

@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Jekyll(Github.io)でカテゴリー対応してみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <p>※この記事はjekyllが入っている前提です。<br>
+入れていない場合<a href="http://n0guch1.github.io/2014/12/05/startGithubPage.html">一番最初の記事を参照。</a></p>
+
+<h3> 〜カテゴリーとは〜 </h3>
+
+<p>よくブログ記事のサイドメニューなどで見かけるやつです。<br>
+見たいカテゴリーをクリックするとそのカテゴリーの一覧が見れます。<br>
+記事が溜まってきたのと将来性を考えて今のうちに対応してみます。</p>
+
+<h3> 〜jekyllにおけるプラグインインストールについて〜 </h3>
+
+<p>jekyllのプラグインのインストールは_pluginsフォルダに.rbファイルを置くだけです。<br>
+置いておけば後はjekyllが読み込み実行してくれます。</p>
+
+<h3> 〜作成手順〜 </h3>
+
+<p>参考記事(2章のみ):<a href="http://whiskers.nukos.kitchen/2015/01/31/jekyll-archives.html">カテゴリアーカイブ用プラグイン</a></p>
+
+<ol>
+<li><p>まずは<code>「_plugins」</code>フォルダ(なければ新規作成)に以下のファイルを作成します<br>
+<a href="https://github.com/n0guch1/n0guch1.github.io/blob/master/_plugins/category_archive.rb">https://github.com/n0guch1/n0guch1.github.io/blob/master/_plugins/category_archive.rb</a><br>
+このプラグインが「category:」毎のフォルダを動的に作成しその中にカテゴリ毎の一覧ページに必要な情報を作成します</p></li>
+<li><p>次に<code>「_layouts」</code>フォルダ内に以下のファイルを作成します<br>
+<a href="https://github.com/n0guch1/n0guch1.github.io/blob/master/_layouts/category_archive.html">https://github.com/n0guch1/n0guch1.github.io/blob/master/_layouts/category_archive.html</a><br>
+このhtmlで上記プラグインで作った情報を元に記事の一覧ページを作成します</p></li>
+<li><p>次にカテゴリー一覧の表示をします。表示する場所は任意です。<br>
+自分の場合はcssにタグを一つ追加して再度メニューとして表示しました<br>
+https://github.com/n0guch1/n0guch1.github.io/blob/master/_layouts/style.html<br>
+&lt;!-- カテゴリータグの追加 --&gt;の部分を参照</p></li>
+<li><p>最後に_config.ymlファイルに以下を追記します<br>
+プラグインで使用する定義を記載します</p></li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># category archive
+category_title_prefix: の記事一覧
+category_title_suffix: &#39; &#39;
+category_dir: category
+</code></pre></div>
+<p>◆詰まりポイント<br>
+* コピペで動かない部分があったのでデバッグして修正しました<br>
+* カテゴリー一覧表示のサンプルが無かったので適当に作成しました</p>
+
+<h3> 〜参考〜 </h3>
+
+<ul>
+<li><a href="http://whiskers.nukos.kitchen/2015/01/31/jekyll-archives.html">jekyllでタグ・カテゴリ・マンスリーアーカイブページを作る(二章のみ)</a></li>
+<li><a href="http://tech.toshiya240.com/articles/2013/01/jekyll-plugins/">最初にインストールした Jekyll プラグイン(カテゴリページ参照)</a></li>
+</ul>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

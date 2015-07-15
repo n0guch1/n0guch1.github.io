@@ -1,6 +1,8 @@
 ---
 layout: style
 title: Google Sign-In(iOS)を使ってみた
+category: ios
+summary: Google認証のiOS版の使い方について
 ---
 
 今回実装したコードは一番下に乗せてあります。

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> GithubPage作成 </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <h3> 〜作成手順〜 </h3>
+
+<p><a href="https://help.github.com/articles/creating-pages-with-the-automatic-generator/">ここ</a>を読めば大丈夫!<br>
+と思っていましたが何点か躓いたのでポイントをまとめます。</p>
+
+<ol>
+<li>Githubアカウントを作成</li>
+<li>ブランチを作成。ブランチ名は「アカウント名.github.io」</li>
+<li>AutoMatic page generator でページ作成</li>
+<li>ローカルに作成したブランチをクローン</li>
+<li>postフォルダを作成し記事にする.mdファイルを作成</li>
+<li>一旦pushして確認。URL「http://ユーザー名.github.io/ファイル名」<br>
+※ファイル名に「-」が入っている場合は「/」に置き換える。<br>
+※ ビルドに失敗した場合はメールでビルド失敗の内容が届くので対処する<br>
+※「title: GithubPage作成」で「:」の後には半角スペース必須</li>
+<li>layoutsがないのでindexからレイアウトをそのまま拝借し、style.html作成</li>
+<li> 元々あるindex.htmlを修正</li>
+</ol>
+
+<h3> 〜jekyllインストール〜 </h3>
+
+<p>マークダウンを書くときにはjekyllをインストールしておくと便利。<br>
+pushせずにローカルにサーバーを立てて簡単に作成した記事を確認できる!</p>
+
+<ol>
+<li>コマンドでjekyllをインストール「sudo gem install jekyll」</li>
+<li>ymlファイルを作成</li>
+<li>ymlのあるディレクトリで「jekyll server」実行</li>
+<li>表示された「serverAdress」にアクセスして確認</li>
+</ol>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

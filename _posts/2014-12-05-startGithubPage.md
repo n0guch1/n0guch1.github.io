@@ -1,6 +1,8 @@
 ---
 layout: style
 title: GithubPage作成
+category: ブログ
+summary: Github.ioでのブログの作り方について
 ---
 
 <h3> 〜作成手順〜 </h3>

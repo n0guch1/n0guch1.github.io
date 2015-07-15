@@ -1,6 +1,9 @@
 ---
 layout: style
 title: Google Sign-In(Android)を使ってみた
+category: android
+summary: Google認証のAndroid版の使い方について
+
 ---
 
 今回実装したコードは一番下に乗せてあります。

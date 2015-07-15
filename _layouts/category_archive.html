@@ -1,0 +1,22 @@
+---
+layout: style
+title: Categories
+---
+<!--  選択したカテゴリーに対応する記事一覧を出力する-->
+<ul>
+  {% for post in site.posts %}
+  {% for category in post.category %}
+  {% if category == page.category %}
+  <li class="archive_list">
+    <time datetime='{{post.date | date: "%Y-%m-%d"}}'>{{post.date | date: "%Y/%m/%d"}}</time><br/> <a class="archive_list_article_link" href='{{post.url}}'>{{post.title}}</a>
+    <p class="summary">{{post.summary}}</p>
+    <!-- <ul class="tag_list">
+      {% for category in post.category %}
+      <li class="inline archive_list"><a class="category_list_link" href="/category/{{ category }}">{{ category }}</a></li>
+      {% endfor %}
+    </ul> -->
+  </li>
+  {% endif %}
+  {% endfor %}
+  {% endfor %}
+</ul>

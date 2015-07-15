@@ -1,6 +1,8 @@
 ---
 layout: style
 title: AndroidStudioを使ってみた
+category: android
+summary: AndroidのIDEであるAndroidStudioの使い方について
 ---
 
 

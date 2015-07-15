@@ -1,0 +1,528 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Google Sign-In(Android)を使ってみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <p>今回実装したコードは一番下に乗せてあります。</p>
+
+<h3> 〜Google Sign-Inとは〜 </h3>
+
+<p>公式:<a href="https://developers.google.com/identity/sign-in/android/">Google Sign-In(Android)</a><br>
+Google認証をライブラリを使って手軽に行うことが出来ます。<br>
+認証を行うことでGoogleが提供するAPI(Google DriveやGoogle Mapsなど)を利用することが出来ます。</p>
+
+<h3> 〜手順1 セットアップ〜 </h3>
+
+<p>公式手順1:<a href="https://developers.google.com/identity/sign-in/android/getting-started">Start integrating Google Sign-In into your Android app</a><br>
+日本語記事:<a href="http://qiita.com/Yuki_312/items/437f41aa7a37a9009c25">Google Sign-In</a></p>
+
+<p>公式手順に沿って実装して行きます。<br>
+大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li><a href="https://console.developers.google.com/project">Google Developers Console. </a>でプロジェクト作成&amp;設定</li>
+<li>Android Studio で対象のプロジェクトに「Google play Services」の導入</li>
+<li>GoogleApiClientの初期化</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+1.の場合<br>
+証明書の取得でAndroidStudioの場合は以下のコマンドをターミナルに入れる<br>
+「keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore -list -v」</p>
+
+<p>3.の場合<br>
+ <a href="http://qiita.com/inuko/items/ea08b26f3429758ced72">GoogleApiClientについて </a></p>
+
+<h3> 〜手順2 Google認証実装〜 </h3>
+
+<p>公式手順2：<a href="https://developers.google.com/identity/sign-in/android/sign-in">Google Sign-In for Android</a></p>
+
+<p>セットアップが終わったところで、メイン機能の肉付けに入ります。<br>
+大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li>SignInButtonを作成</li>
+<li>SignOutButtonを作成</li>
+<li>認証失敗時/成功時の機能を作成 <a href="https://developers.google.com/identity/sign-in/android/sign-in#add_the_google_sign-in_button_to_your_app">ここ</a>の1~6まで実装</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+1.の場合<br>
+デフォルトのボタンデザインがGoogle+の物だった。<br>
+その他ボタンレイアウトは素材をダウンロードして自前で実装します。<br>
+自前で実装する場合はGoogleの規約にそって実装しないといけないらしいです。<br>
+公式：<a href="https://developers.google.com/identity/branding-guidelines#sign-in-button">ボタンレイアウト</a></p>
+
+<h3> 〜手順3 AuthToken,UserIdの取得〜 </h3>
+
+<p>公式手順3：<a href="https://developers.google.com/identity/sign-in/android/people#retrieve_the_email_address_of_a_signed-in_user">Getting profile information</a></p>
+
+<p>認証が完了したところで、AuthToken及びUserId(メールアドレス)の取得に移ります。<br>
+大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li>UserIdを取得</li>
+<li>取得したUserIdを元にAuthTokenを取得</li>
+</ol>
+
+<p>◆詰まりポイント<br>
+1.の場合<br>
+公式のUserIdの取得の仕方がGoogle+を使うため、<br>
+Googleの<a href="https://console.developers.google.com/project/onyx-gear-93107/apiui/apis/library">コンソール</a>からGoogle+を有効にしなければいけません。<br>
+リファレンス：<a href="https://developer.android.com/reference/com/google/android/gms/plus/package-summary.html">com.google.android.gms.plus</a></p>
+
+<p>2.の場合<br>
+公式に記載が無いので自前で実装<br>
+参考：<a href="http://d.hatena.ne.jp/satoshis/20141121/p1">GoogleAuthUtil実装例</a><br>
+リファレンス：<a href="https://developer.android.com/reference/com/google/android/gms/auth/GoogleAuthUtil.html">GoogleAuthUtil</a></p>
+
+<h3> 〜問題点〜 </h3>
+
+<p>Google+APIは使いたくなかったのですが、UserId取得の仕方が思いっきりGoogle+APIを使っていました。</p>
+
+<h3> 〜実装コード〜 </h3>
+
+<p>◆MainActivity.java</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">mb</span><span class="o">.</span><span class="na">cloud</span><span class="o">.</span><span class="na">nifty</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">googleoauthtest</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.accounts.Account</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.accounts.AccountManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.Activity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.content.Intent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.content.IntentSender.SendIntentException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.AsyncTask</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.util.Log</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.View</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.Button</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.TextView</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.Toast</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.google.android.gms.auth.GoogleAuthException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.auth.GoogleAuthUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.auth.UserRecoverableAuthException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.common.ConnectionResult</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.common.Scopes</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.common.api.GoogleApiClient</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.common.api.Scope</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.plus.Plus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.android.gms.plus.model.people.Person</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">android</span><span class="o">.</span><span class="na">view</span><span class="o">.</span><span class="na">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="kd">implements</span>
+        <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">ConnectionCallbacks</span><span class="o">,</span>
+        <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">OnConnectionFailedListener</span><span class="o">,</span>
+        <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">{</span>
+
+    <span class="n">String</span> <span class="n">accountName</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">userId</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">authToken</span><span class="o">;</span>
+
+    <span class="c1">//Google play Servicesに接続中フラグ</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">mSignInClicked</span><span class="o">;</span>
+
+
+    <span class="cm">/**</span>
+<span class="cm">     * True if we are in the process of resolving a ConnectionResult</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">mIntentInProgress</span><span class="o">;</span>
+
+
+    <span class="cm">/* Request code used to invoke sign in user interactions. */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">RC_SIGN_IN</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="cm">/* Client used to interact with Google APIs. */</span>
+    <span class="kd">private</span> <span class="n">GoogleApiClient</span> <span class="n">mGoogleApiClient</span><span class="o">;</span>
+
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;実行開始&quot;</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+
+        <span class="c1">//mGoogleApiClientの初期化</span>
+        <span class="n">mGoogleApiClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addConnectionCallbacks</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addOnConnectionFailedListener</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addApi</span><span class="o">(</span><span class="n">Plus</span><span class="o">.</span><span class="na">API</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addScope</span><span class="o">(</span><span class="k">new</span> <span class="nf">Scope</span><span class="o">(</span><span class="s">&quot;profile&quot;</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+
+        <span class="c1">//認証ボタンのデザイン実装 ※Googleの規約に沿うこと</span>
+        <span class="n">Button</span> <span class="n">googleButton</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">original_sign_out_button</span><span class="o">);</span>
+        <span class="n">googleButton</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">VISIBLE</span><span class="o">);</span>
+        <span class="n">googleButton</span><span class="o">.</span><span class="na">setBackgroundDrawable</span><span class="o">(</span><span class="n">getResources</span><span class="o">().</span><span class="na">getDrawable</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">btn_google_signin_normal</span><span class="o">));</span>
+        <span class="c1">//googleButton.setBackground(getResources().getDrawable(com.google.android.gms.R.drawable.common_signin_btn_text_normal_dark));</span>
+        <span class="c1">//googleButton.getResources().getString(com.google.android.gms.R.string.common_signin_button_text);</span>
+
+        <span class="c1">//ボタン登録</span>
+        <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">original_sign_out_button</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">sign_in_button</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">sign_out_button</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//認証ログイン</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">view</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">sign_in_button</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnecting</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mSignInClicked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="c1">//オリジナルボタンで認証ログイン</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">view</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">original_sign_out_button</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnecting</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mSignInClicked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="c1">//認証ログアウト</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">view</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">sign_out_button</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//ログイン中であればログアウトする</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">clearDefaultAccountAndReconnect</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * アプリ復帰時に未認証であれば接続する</span>
+<span class="cm">    */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     * アプリ離脱時にGoogle Play Servicesからの接続を閉じます</span>
+<span class="cm">     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onStop</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onStop</span><span class="o">();</span>
+        <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">disconnect</span><span class="o">();</span>
+    <span class="o">}</span>
+
+
+    <span class="cm">/*</span>
+<span class="cm">     * ログインボタンをタップし接続が確立された場合に呼ばれる</span>
+<span class="cm">     * mSignInClickedフラグをリセットする</span>
+<span class="cm">     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">responseCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;Googleに接続中&quot;</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">RC_SIGN_IN</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">responseCode</span> <span class="o">!=</span> <span class="n">RESULT_OK</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mSignInClicked</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="n">mIntentInProgress</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+            <span class="k">if</span> <span class="o">(!</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span> <span class="o">{</span>
+                <span class="c1">//未ログインならば現在の接続を閉じた後に再度接続開始</span>
+                <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">reconnect</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * エラーハンドリング</span>
+<span class="cm">     * 接続が中断された場合に呼ばれる</span>
+<span class="cm">     * 引数に原因コードが渡される</span>
+<span class="cm">     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionSuspended</span><span class="o">(</span><span class="kt">int</span> <span class="n">cause</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;接続中断&quot;</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">cause</span> <span class="o">==</span> <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">ConnectionCallbacks</span><span class="o">.</span><span class="na">CAUSE_SERVICE_DISCONNECTED</span><span class="o">){</span>
+            <span class="c1">//Google Play Servicesから切断</span>
+        <span class="o">}</span><span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">cause</span> <span class="o">==</span> <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">ConnectionCallbacks</span><span class="o">.</span><span class="na">CAUSE_NETWORK_LOST</span><span class="o">){</span>
+            <span class="c1">//インターネットから切断　</span>
+        <span class="o">}</span>
+        <span class="c1">//エラー発生時に未ログインなら再度ログインする</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * エラーハンドリング</span>
+<span class="cm">     * ログイン失敗時に呼ばれる</span>
+<span class="cm">     * アカウントの選択を再びユーザに求める</span>
+<span class="cm">     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnectionFailed</span><span class="o">(</span><span class="n">ConnectionResult</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;認証失敗&quot;</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">mIntentInProgress</span><span class="o">)</span> <span class="o">{</span>
+
+            <span class="c1">//ログイン中で接続を失敗した場合は再度ユーザーにアカウントを選択してもらう</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mSignInClicked</span> <span class="o">&amp;&amp;</span> <span class="n">result</span><span class="o">.</span><span class="na">hasResolution</span><span class="o">())</span> <span class="o">{</span>
+                <span class="c1">// The user has already clicked &#39;sign-in&#39; so we attempt to resolve all</span>
+                <span class="c1">// errors until the user is signed in, or they cancel.</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">result</span><span class="o">.</span><span class="na">startResolutionForResult</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">RC_SIGN_IN</span><span class="o">);</span>
+                    <span class="n">mIntentInProgress</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SendIntentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="c1">// The intent was canceled before it was sent.  Return to the default</span>
+                    <span class="c1">// state and attempt to connect to get an updated ConnectionResult.</span>
+                    <span class="n">mIntentInProgress</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="n">mGoogleApiClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     * 認証ログイン成功時に呼ばれる</span>
+<span class="cm">     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onConnected</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">connectionHint</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;認証ログイン成功&quot;</span><span class="o">);</span>
+        <span class="c1">// We&#39;ve resolved any connection errors.  mGoogleApiClient can be used to</span>
+        <span class="c1">// access Google APIs on behalf of the user.</span>
+        <span class="n">mSignInClicked</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">&quot;User is connected!&quot;</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+
+        <span class="c1">//ログインユーザー情報取得 ※UserID取得部分はGoogle+APIを使う</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">Plus</span><span class="o">.</span><span class="na">PeopleApi</span><span class="o">.</span><span class="na">getCurrentPerson</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Person</span> <span class="n">currentPerson</span> <span class="o">=</span> <span class="n">Plus</span><span class="o">.</span><span class="na">PeopleApi</span><span class="o">.</span><span class="na">getCurrentPerson</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">email</span> <span class="o">=</span> <span class="n">Plus</span><span class="o">.</span><span class="na">AccountApi</span><span class="o">.</span><span class="na">getAccountName</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">personName</span> <span class="o">=</span> <span class="n">currentPerson</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">();</span>
+
+            <span class="c1">//UserId取得は以下メソッドでも可能</span>
+            <span class="c1">//String userId = currentPerson.getId();</span>
+            <span class="c1">//this.userId = userId;</span>
+
+            <span class="k">this</span><span class="o">.</span><span class="na">accountName</span> <span class="o">=</span> <span class="n">personName</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+
+            <span class="c1">//取得データをviewに反映</span>
+            <span class="n">TextView</span> <span class="n">accountNameView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">accountName</span><span class="o">);</span>
+            <span class="n">accountNameView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;【アカウント名】 : &quot;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">accountName</span><span class="o">);</span>
+
+            <span class="n">TextView</span> <span class="n">emailView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">email</span><span class="o">);</span>
+            <span class="n">emailView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;【Eメール】 : &quot;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">email</span><span class="o">);</span>
+
+            <span class="c1">//authTokenの取得</span>
+            <span class="n">authToken</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">scope</span> <span class="o">=</span> <span class="s">&quot;oauth2:&quot;</span><span class="o">+</span><span class="n">Scopes</span><span class="o">.</span><span class="na">PROFILE</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">REQUEST_AUTHORIZATION</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * authTokenを取得する</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">authToken</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">protected</span> <span class="n">Boolean</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="c1">//非推奨</span>
+                    <span class="c1">//authToken = GoogleAuthUtil.getToken(MainActivity.this, email, scope);</span>
+
+                    <span class="n">AccountManager</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">AccountManager</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
+                    <span class="n">Account</span><span class="o">[]</span> <span class="n">accountArray</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="na">getAccountsByType</span><span class="o">(</span><span class="s">&quot;com.google&quot;</span><span class="o">);</span>
+                    <span class="k">for</span><span class="o">(</span><span class="n">Account</span> <span class="n">account</span> <span class="o">:</span> <span class="n">accountArray</span><span class="o">){</span>
+                        <span class="c1">//ログイン中のアカウントのAuthData取得</span>
+                        <span class="k">if</span><span class="o">(</span><span class="n">account</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">email</span><span class="o">)){</span>
+                            <span class="n">authToken</span> <span class="o">=</span> <span class="n">GoogleAuthUtil</span><span class="o">.</span><span class="na">getToken</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">account</span><span class="o">,</span> <span class="n">scope</span><span class="o">);</span>
+                            <span class="c1">//メインスレッドとは別で実行する</span>
+                            <span class="n">userId</span> <span class="o">=</span> <span class="n">GoogleAuthUtil</span><span class="o">.</span><span class="na">getAccountId</span><span class="o">(</span><span class="n">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="n">email</span><span class="o">);</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">UserRecoverableAuthException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getIntent</span><span class="o">(),</span> <span class="n">REQUEST_AUTHORIZATION</span><span class="o">);</span>
+                    <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;UserRecoverableAuthException:&quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;IOException:&quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">GoogleAuthException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;GoogleAuthException:&quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+                <span class="o">}</span>
+
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPreExecute</span><span class="o">()</span> <span class="o">{</span>
+                <span class="c1">//AuthTokenをViewに反映</span>
+                <span class="n">TextView</span> <span class="n">AuthTokenView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">authToken</span><span class="o">);</span>
+                <span class="n">AuthTokenView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;【AuthToken】 : &quot;</span><span class="o">+</span><span class="n">authToken</span><span class="o">);</span>
+
+                <span class="c1">//UserIDをViewに反映</span>
+                <span class="n">TextView</span> <span class="n">personIdView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">userId</span><span class="o">);</span>
+                <span class="n">personIdView</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;【ID】 : &quot;</span><span class="o">+</span><span class="n">userId</span><span class="o">);</span>
+
+                <span class="c1">//ログイン情報ログ出力</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;ID:&quot;</span><span class="o">+</span><span class="n">userId</span><span class="o">);</span><span class="c1">//UserId</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;アカウント名:&quot;</span><span class="o">+</span><span class="n">accountName</span><span class="o">);</span><span class="c1">//アカウント名</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;Eメール:&quot;</span><span class="o">+</span><span class="n">email</span><span class="o">);</span><span class="c1">//メールアドレス</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;AuthToken:&quot;</span><span class="o">+</span><span class="n">authToken</span><span class="o">);</span><span class="c1">//トークン</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+        <span class="n">task</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">Void</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>◆activity_main.xml</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">RelativeLayout</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="nl">xmlns:</span><span class="n">tools</span><span class="o">=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span> <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;match_parent&quot;</span>
+    <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;match_parent&quot;</span> <span class="nl">android:</span><span class="n">paddingLeft</span><span class="o">=</span><span class="s">&quot;@dimen/activity_horizontal_margin&quot;</span>
+    <span class="nl">android:</span><span class="n">paddingRight</span><span class="o">=</span><span class="s">&quot;@dimen/activity_horizontal_margin&quot;</span>
+    <span class="nl">android:</span><span class="n">paddingTop</span><span class="o">=</span><span class="s">&quot;@dimen/activity_vertical_margin&quot;</span>
+    <span class="nl">android:</span><span class="n">paddingBottom</span><span class="o">=</span><span class="s">&quot;@dimen/activity_vertical_margin&quot;</span> <span class="nl">tools:</span><span class="n">context</span><span class="o">=</span><span class="s">&quot;.MainActivity&quot;</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">gms</span><span class="o">.</span><span class="na">common</span><span class="o">.</span><span class="na">SignInButton</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/sign_in_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">&quot;31dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/sign_out_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentLeft</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentStart</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">Button</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/sign_out_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;ログアウト&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentTop</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentRight</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentEnd</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">Button</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/original_sign_out_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;@string/common_signin_button_text&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_above</span><span class="o">=</span><span class="s">&quot;@+id/sign_in_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentLeft</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_alignParentStart</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">TextView</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">textAppearance</span><span class="o">=</span><span class="s">&quot;?android:attr/textAppearanceMedium&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;アカウント名 : 未ログイン&quot;</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/accountName&quot;</span>
+        <span class="nl">android:</span><span class="n">textSize</span><span class="o">=</span><span class="s">&quot;10dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/title&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">&quot;34dp&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">TextView</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">textAppearance</span><span class="o">=</span><span class="s">&quot;?android:attr/textAppearanceLarge&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;ログイン情報&quot;</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/title&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_marginTop</span><span class="o">=</span><span class="s">&quot;33dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/sign_in_button&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_centerHorizontal</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">TextView</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">textAppearance</span><span class="o">=</span><span class="s">&quot;?android:attr/textAppearanceMedium&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;Eメール : 未ログイン&quot;</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/email&quot;</span>
+        <span class="nl">android:</span><span class="n">textSize</span><span class="o">=</span><span class="s">&quot;10dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/accountName&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_toLeftOf</span><span class="o">=</span><span class="s">&quot;@+id/title&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">TextView</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">textAppearance</span><span class="o">=</span><span class="s">&quot;?android:attr/textAppearanceMedium&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;AuthToken : 未ログイン&quot;</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/authToken&quot;</span>
+        <span class="nl">android:</span><span class="n">textSize</span><span class="o">=</span><span class="s">&quot;10dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/email&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_toLeftOf</span><span class="o">=</span><span class="s">&quot;@+id/title&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">TextView</span>
+        <span class="nl">android:</span><span class="n">layout_width</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_height</span><span class="o">=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="nl">android:</span><span class="n">textAppearance</span><span class="o">=</span><span class="s">&quot;?android:attr/textAppearanceMedium&quot;</span>
+        <span class="nl">android:</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;UserID : 未ログイン&quot;</span>
+        <span class="nl">android:</span><span class="n">id</span><span class="o">=</span><span class="s">&quot;@+id/userId&quot;</span>
+        <span class="nl">android:</span><span class="n">textSize</span><span class="o">=</span><span class="s">&quot;10dp&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_below</span><span class="o">=</span><span class="s">&quot;@+id/authToken&quot;</span>
+        <span class="nl">android:</span><span class="n">layout_toLeftOf</span><span class="o">=</span><span class="s">&quot;@+id/title&quot;</span> <span class="o">/&gt;</span>
+
+<span class="o">&lt;/</span><span class="n">RelativeLayout</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>◆AndroidManifest.xml</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">&quot;1.0&quot;</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">manifest</span> <span class="nl">xmlns:</span><span class="n">android</span><span class="o">=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="n">package</span><span class="o">=</span><span class="s">&quot;mb.cloud.nifty.com.googleoauthtest&quot;</span> <span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.google.android.gms.version&quot;</span> <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;@integer/google_play_services_version&quot;</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.GET_ACCOUNTS&quot;</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.USE_CREDENTIALS&quot;</span> <span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">application</span>
+        <span class="nl">android:</span><span class="n">allowBackup</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+        <span class="nl">android:</span><span class="n">icon</span><span class="o">=</span><span class="s">&quot;@mipmap/ic_launcher&quot;</span>
+        <span class="nl">android:</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;@string/app_name&quot;</span>
+        <span class="nl">android:</span><span class="n">theme</span><span class="o">=</span><span class="s">&quot;@style/AppTheme&quot;</span> <span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">activity</span>
+            <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;.MainActivity&quot;</span>
+            <span class="nl">android:</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">action</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span> <span class="o">/&gt;</span>
+
+                <span class="o">&lt;</span><span class="n">category</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="o">/&gt;</span>
+            <span class="o">&lt;/</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">activity</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">application</span><span class="o">&gt;</span>
+
+<span class="o">&lt;/</span><span class="n">manifest</span><span class="o">&gt;</span>
+</code></pre></div>
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

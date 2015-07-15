@@ -1,0 +1,13 @@
+---
+layout: style
+title: Categories
+---
+<!--  カテゴリーの一覧及び件数及びリンク先を生成する-->
+<!--  カテゴリー一覧用のページを作る場合はこのフォルダとhtmlを使う-->
+<!--  現状右メニューにカテゴリリストを出しているので不要-->
+<h2 class="category-title"><span class="icon large" data-icon=","></span> Categories</h2>
+<ul id="category-list" class="alt">
+{% for category in site.categories %}
+  <li><a href="/category/{{category[0]}}/">{{category[0]}}</a>({{category[1].size}})</li>
+{% endfor %}
+</ul>

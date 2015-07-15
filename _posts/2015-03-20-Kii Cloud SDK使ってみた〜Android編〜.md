@@ -1,6 +1,8 @@
 ---
 layout: style
 title: Kii Cloud SDK使ってみた 〜Android〜
+category: その他
+summary: KiiのmBaaSについて
 ---
 <h3> 〜mBaaSとは〜 </h3>
 
