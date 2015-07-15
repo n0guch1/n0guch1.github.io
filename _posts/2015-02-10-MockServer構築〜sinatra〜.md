@@ -1,10 +1,9 @@
 ---
 layout: style
-title: モックサーバ構築 〜Sinatra〜
+title: MockServer構築 〜sinatra〜
 category: その他
-summary: テスト用サーバーSinatraの使い方について
+summary: モックサーバーを作成するSinatraの使い方について
 ---
-
 
 <h3> 〜モックサーバとは〜 </h3>
 「モック」とは、テストなどで用意された見せかけのオブジェクトです。

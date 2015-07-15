@@ -1,8 +1,8 @@
 ---
 layout: style
-title: Jekyll(Github.io)でカテゴリー対応してみた
+title: Jekyllを使ってCategoryの追加
 category: ブログ
-summary: ブログ拡張の方法について
+summary: ブログにCategoryを追加する方法について
 ---
 
 ※この記事はjekyllが入っている前提です。
@@ -48,6 +48,8 @@ category_dir: category
 ◆詰まりポイント
 * コピペで動かない部分があったのでデバッグして修正しました
 * カテゴリー一覧表示のサンプルが無かったので適当に作成しました
+* titleに濁音を含めるとリンカーエラー謎
+* パスによってはcategoryフォルダをルートディレクトリにコピペする(Github.io未対応のため)
 
 <h3> 〜参考〜 </h3>
 * [jekyllでタグ・カテゴリ・マンスリーアーカイブページを作る(二章のみ)](http://whiskers.nukos.kitchen/2015/01/31/jekyll-archives.html)

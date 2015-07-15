@@ -3,6 +3,7 @@ layout: style
 title: Categories
 ---
 <!--  選択したカテゴリーに対応する記事一覧を出力する-->
+<!--  タイトルに濁音を含めないこと-->
 <ul>
   {% for post in site.posts %}
   {% for category in post.category %}
