@@ -2,6 +2,11 @@
     /*カテゴリー追加 右へ回り込む*/
     float: right;
 }
+/*
+#newCategory {
+    float: right;
+    padding: 170px 250px 0 0px;
+}*/
 
 @font-face {
   font-family: 'OpenSansLight';

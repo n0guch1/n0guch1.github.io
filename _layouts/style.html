@@ -46,6 +46,7 @@
                 <h2> {{ page.title }} </h2>
                 <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
                 {% if "Archives" != page.title %}</br>{% endif %}
+                <!-- ページ内容を表示 -->
                 {{  content }}
             </section>
         </div>

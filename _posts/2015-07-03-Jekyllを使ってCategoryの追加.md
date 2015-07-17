@@ -1,7 +1,7 @@
 ---
 layout: style
 title: Jekyllを使ってCategoryの追加
-category: ブログ
+category: blog
 summary: ブログにCategoryを追加する方法について
 ---
 

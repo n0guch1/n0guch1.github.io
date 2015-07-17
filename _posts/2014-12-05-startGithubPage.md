@@ -1,7 +1,7 @@
 ---
 layout: style
 title: GithubPage作成
-category: ブログ
+category: blog
 summary: Github.ioでのブログの作り方について
 ---
 
