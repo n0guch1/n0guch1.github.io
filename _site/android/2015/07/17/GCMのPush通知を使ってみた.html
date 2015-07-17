@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <span class="credits left">Project maintained by <a                     href="https://github.com/n0guch1">n0guch1</a></span>
+                    <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> GCMのPush通知を使ってみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <!-- ページ内容を表示 -->
+                <h3>〜Push通知とは〜</h3>
+
+<p><a href="https://developers.google.com/cloud-messaging/android/client">公式</a><br>
+<a href="https://developers.google.com/cloud-messaging/android/start">GCMのサンプルアプリ</a><br>
+端末の通知エリアにアプリからメッセージを飛ばす機能の事です。<br>
+代表的なものを言うとLineなどに使われています。<br>
+ちなみにアプリ内のみ(通信しない)でNotificationを実行しているのはローカル通知と言います。<br>
+もちろんローカル通知なのでユーザー間のやり取りは出来ないです。アプリから定期的なお知らせを出す時などに使います。<br>
+ここで言うPush通知はGCMのサーバーを使って送信するリモート通知の事を言います。</p>
+
+<h3>〜Push通知の流れ〜</h3>
+
+<p>ざっくりGCMのPush通知の流れを書くと以下のような感じになります。</p>
+
+<ol>
+<li>アプリ      : 端末をGCMに登録する。RegistrationTokenを取得するためリクエストを送信。</li>
+<li>GCMサーバー : 登録成功後、端末固有のIDをアプリに送信</li>
+<li>アプリ      : 取得した端末IDを自サーバーにリクエストを送信。必要であればPush情報も一緒に送信</li>
+<li>自サーバー  : 端末IDを元にPush情報をGCMサーバーにリクエスト送信</li>
+<li>GCMサーバー : 端末IDに向けて受け取ったPush情報を送信</li>
+<li>アプリ      : GCMサーバーからPush情報を受信。通知エリアにその情報を元に表示させる</li>
+</ol>
+
+<h3>〜1,2実装(RegistrationTokenの取得)〜</h3>
+
+<p>公式の通りAndroidManifest.xmlにpermissionを追記。　※受信部分の物もそのまま追記しています<br>
+「com.example.gcm」の部分は自分のアプリのパッケージ名に変更します。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.GET_ACCOUNTS&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.permission.WAKE_LOCK&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.google.android.c2dm.permission.RECEIVE&quot;</span> <span class="o">/&gt;</span>
+
+<span class="o">&lt;</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.example.gcm.permission.C2D_MESSAGE&quot;</span>
+    <span class="nl">android:</span><span class="n">protectionLevel</span><span class="o">=</span><span class="s">&quot;signature&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.example.gcm.permission.C2D_MESSAGE&quot;</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>次にトークン取得メソッドを作成。<br>
+getTokenメソッドを使用します。<br>
+トークンの取得はメインスレッドでは出来ないので非同期で取得します。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">getRegistrationToken</span><span class="o">(</span><span class="n">String</span> <span class="n">senderId</span><span class="o">,</span> <span class="n">NCMBRegistrationCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">protected</span> <span class="n">Void</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">InstanceID</span> <span class="n">instanceID</span> <span class="o">=</span> <span class="n">InstanceID</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">NCMB</span><span class="o">.</span><span class="na">sCurrentContext</span><span class="o">.</span><span class="na">context</span><span class="o">);</span>
+                <span class="n">String</span> <span class="n">token</span> <span class="o">=</span> <span class="n">instanceID</span><span class="o">.</span><span class="na">getToken</span><span class="o">(</span><span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">GoogleCloudMessaging</span><span class="o">.</span><span class="na">INSTANCE_ID_SCOPE</span><span class="o">);</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;token:&quot;</span><span class="o">+</span><span class="n">token</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;error:&quot;</span><span class="o">+</span><span class="n">error</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}.</span><span class="na">execute</span><span class="o">(</span><span class="n">senderId</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>これでGCMに端末の登録とトークンの取得は完了です。</p>
+
+<p>※おまけ<br>
+GooglePlay開発者サービスが端末にインストールされてないとそもそも動かないので、<br>
+そのチェックメソッドを追加します。公式推奨でonCreateメソッドで呼び出します。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/**</span>
+<span class="cm"> * 端末にGooglePlay開発者サービスがインストールされているか確認</span>
+<span class="cm"> * インストールされていな場合はPlayストアへのダイアログを表示</span>
+<span class="cm"> */</span>
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">checkPlayServices</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">resultCode</span> <span class="o">=</span> <span class="n">GooglePlayServicesUtil</span><span class="o">.</span><span class="na">isGooglePlayServicesAvailable</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">resultCode</span> <span class="o">!=</span> <span class="n">ConnectionResult</span><span class="o">.</span><span class="na">SUCCESS</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">GooglePlayServicesUtil</span><span class="o">.</span><span class="na">isUserRecoverableError</span><span class="o">(</span><span class="n">resultCode</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">GooglePlayServicesUtil</span><span class="o">.</span><span class="na">getErrorDialog</span><span class="o">(</span><span class="n">resultCode</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span>
+                    <span class="n">PLAY_SERVICES_RESOLUTION_REQUEST</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">i</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;This device is not supported.&quot;</span><span class="o">);</span>
+            <span class="n">finish</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>
+<h3>〜3,4,5実装(自サーバー経由でGCMサーバーに通知をコール)〜</h3>
+
+<p>この部分は自サーバが必要なため割愛します。<br>
+自力でサーバーを立てられない人はmBaaSなどでPush通知に対応したサーバーを借りると楽です。</p>
+
+<h3>〜6実装(Push通知の受信/表示)〜</h3>
+
+<p>受信クラスの作成とAndroidManifestにreceiverの登録をします。</p>
+
+<p>まずAndroidManifest.xmlの<application>タグ内に以下を記載します。<br>
+「com.example.gcm」の部分は自分のアプリのパッケージ名に変更します。</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">receiver</span>
+    <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.google.android.gms.gcm.GcmReceiver&quot;</span>
+    <span class="nl">android:</span><span class="n">exported</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+    <span class="nl">android:</span><span class="n">permission</span><span class="o">=</span><span class="s">&quot;com.google.android.c2dm.permission.SEND&quot;</span> <span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">action</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.google.android.c2dm.intent.RECEIVE&quot;</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">category</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.example.gcm&quot;</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">receiver</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">service</span>
+    <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.nifty.cloud.mb.core.NCMBGcmListenerService&quot;</span>
+    <span class="nl">android:</span><span class="n">exported</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">action</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;com.google.android.c2dm.intent.RECEIVE&quot;</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="n">intent</span><span class="o">-</span><span class="n">filter</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">service</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>次に以下のクラスを作成します。<br>
+受信クラスにはGcmListenerServiceを継承させます。※公式推奨</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">gcm</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.app.NotificationManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.PendingIntent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.content.Intent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.media.RingtoneManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.net.Uri</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.NotificationCompat</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.util.Log</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.google.android.gms.gcm.GcmListenerService</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MylistenerService</span> <span class="kd">extends</span> <span class="n">GcmListenerService</span> <span class="o">{</span>
+
+    <span class="c1">//GCMからの通知を受信</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onMessageReceived</span><span class="o">(</span><span class="n">String</span> <span class="n">from</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;message&quot;</span><span class="o">);</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;受信　From: &quot;</span> <span class="o">+</span> <span class="n">from</span><span class="o">);</span>
+        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;受信　Message: &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="o">);</span>
+
+        <span class="n">sendNotification</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">//通知エリアにNotificationを表示</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sendNotification</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">MainActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">intent</span><span class="o">.</span><span class="na">addFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TOP</span><span class="o">);</span>
+        <span class="n">PendingIntent</span> <span class="n">pendingIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getActivity</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span> <span class="o">,</span> <span class="n">intent</span><span class="o">,</span>
+                <span class="n">PendingIntent</span><span class="o">.</span><span class="na">FLAG_ONE_SHOT</span><span class="o">);</span>
+
+        <span class="n">Uri</span> <span class="n">defaultSoundUri</span><span class="o">=</span> <span class="n">RingtoneManager</span><span class="o">.</span><span class="na">getDefaultUri</span><span class="o">(</span><span class="n">RingtoneManager</span><span class="o">.</span><span class="na">TYPE_NOTIFICATION</span><span class="o">);</span>
+        <span class="n">NotificationCompat</span><span class="o">.</span><span class="na">Builder</span> <span class="n">notificationBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NotificationCompat</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setSmallIcon</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">ic_stat_ic_notification</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setContentTitle</span><span class="o">(</span><span class="s">&quot;GCM Message&quot;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setContentText</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setAutoCancel</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setSound</span><span class="o">(</span><span class="n">defaultSoundUri</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setContentIntent</span><span class="o">(</span><span class="n">pendingIntent</span><span class="o">);</span>
+
+        <span class="n">NotificationManager</span> <span class="n">notificationManager</span> <span class="o">=</span>
+                <span class="o">(</span><span class="n">NotificationManager</span><span class="o">)</span> <span class="n">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">NOTIFICATION_SERVICE</span><span class="o">);</span>
+
+        <span class="n">notificationManager</span><span class="o">.</span><span class="na">notify</span><span class="o">(</span><span class="mi">0</span> <span class="o">,</span> <span class="n">notificationBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>後はGCMからメッセージが送られた場合にonMessageReceivedメソッドが受信を行います。<br>
+そしてsendNotificationメソッドでその通知情報を元に通知エリアにNotificationを表示します。</p>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>
