@@ -6,7 +6,7 @@ summary: ブログにCategoryを追加する方法について
 ---
 
 ※この記事はjekyllが入っている前提です。
-入れていない場合[一番最初の記事を参照。](http://n0guch1.github.io/2014/12/05/startGithubPage.html)
+入れていない場合[一番最初の記事を参照。](http://n0guch1.github.io/blog/2014/12/05/startGithubPage.html)
 
 <h3> 〜カテゴリーとは〜 </h3>
 よくブログ記事のサイドメニューなどで見かけるやつです。
