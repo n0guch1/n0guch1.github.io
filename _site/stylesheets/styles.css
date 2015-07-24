@@ -615,7 +615,9 @@ strong {
 }
 
 .wrapper {
-  max-width: 650px;
+  /*元々のサイズ.wrapperとsectionタグのmax-widthでブログ幅を変える*/
+  /*max-width: 650px;*/
+  max-width: 700px;
   margin: 0 auto;
   position: relative;
   padding: 0 20px;
@@ -791,7 +793,9 @@ dt {
 }
 
 section {
-  max-width: 650px;
+　/*元々のサイズ.wrapperとsectionタグのmax-widthでブログ幅を変える*/
+  /*max-width: 650px;*/
+  max-width: 700px;
   padding: 30px 0px 50px 0px;
   margin: 20px 0;
   margin-top: 70px;
