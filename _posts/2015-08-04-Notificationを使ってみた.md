@@ -18,7 +18,7 @@ Notificationクラスを使うことでこの領域にメッセージを表示�
 ### 〜非推奨について〜
 古いブログでは非推奨を使ったやり方が散見しているので結果だけ言いますと、
 Android4系以上が対象の場合は「NotificationCompat.Builder」を使いましょう。
-※2015年8月3日時点
+※2015年8月4日時点
 
 |      クラス      |     対応Ver      |
 |:-----------------|-----------------|
@@ -34,7 +34,7 @@ Android4.0.4で実行出来ないためAndroid4系以上をサポートするア
 
 ### 〜実装〜
 
-[]公式サンプルアプリ](https://developers.google.com/cloud-messaging/android/start)
+[公式サンプルアプリ](https://developers.google.com/cloud-messaging/android/start)
 
 ```
 git clone https://github.com/googlesamples/google-services.git

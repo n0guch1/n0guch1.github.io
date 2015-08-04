@@ -54,69 +54,66 @@
                 <!-- ページ内容を表示 -->
                 <h3>〜meta-dataとは〜</h3>
 
-<p>AndroidManifestに<meta-data>タグを使って値を登録する事が出来ます。<br>
+<p>AndroidManifestにmeta-dataタグを使って値を登録する事が出来ます。<br>
 他のapkから読み込んだり、設定データなどの静的データの永続化に利用出来ます。</p>
 
 <h3>〜実装〜</h3>
 
-<p><meta-data>タグは<application>タグ直下に記載します。</p>
-
 <p>■設定<br>
-AndroidManifest.xml<br>
-```java<br>
-<application<br>
-    android:allowBackup="true"<br>
-    android:icon="@mipmap/ic_launcher"<br>
-    android:label="@string/app_name"<br>
-    android:theme="@style/AppTheme"></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;!-- 文字列 --&gt;
-&lt;meta-data android:name=&quot;key&quot; android:value=&quot;value&quot;/&gt;
-&lt;!-- 画像 --&gt;
-&lt;meta-data android:name=&quot;smallIcon&quot; android:resource=&quot;@drawable/comment_icon&quot;/&gt;
-&lt;!-- 遷移時などのActivity --&gt;
-&lt;meta-data android:name=&quot;startActivity&quot; android:value=&quot;.MainActivity&quot;/&gt;
+AndroidManifest.xml</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">application</span>
+    <span class="nl">android:</span><span class="n">allowBackup</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+    <span class="nl">android:</span><span class="n">icon</span><span class="o">=</span><span class="s">&quot;@mipmap/ic_launcher&quot;</span>
+    <span class="nl">android:</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;@string/app_name&quot;</span>
+    <span class="nl">android:</span><span class="n">theme</span><span class="o">=</span><span class="s">&quot;@style/AppTheme&quot;</span><span class="o">&gt;</span>
 
-&lt;activity
-android:name=&quot;.MainActivity&quot;
-android:label=&quot;@string/app_name&quot;&gt;
-.
-.
-.
+    <span class="o">&lt;!--</span> <span class="n">文字列</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;key&quot;</span> <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;value&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&lt;!--</span> <span class="n">画像</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;smallIcon&quot;</span> <span class="nl">android:</span><span class="n">resource</span><span class="o">=</span><span class="s">&quot;@drawable/comment_icon&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&lt;!--</span> <span class="n">遷移時などのActivity</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;startActivity&quot;</span> <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;.MainActivity&quot;</span><span class="o">/&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">activity</span>
+    <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;.MainActivity&quot;</span>
+    <span class="nl">android:</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;@string/app_name&quot;</span><span class="o">&gt;</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+<span class="o">&lt;/</span><span class="n">application</span><span class="o">&gt;</span>
 </code></pre></div>
-<p></application><br>
-```</p>
+<p>※meta-dataタグはapplicationタグ直下に記載します。</p>
 
-<p>■取得<br>
-```java<br>
-//meta-dataに必要なappInfo取得<br>
-ApplicationInfo appInfo = null;<br>
-try {<br>
-    appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);<br>
-} catch (PackageManager.NameNotFoundException e) {<br>
-    e.printStackTrace();<br>
-}</p>
+<p>■取得</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">//meta-dataに必要なappInfo取得</span>
+<span class="n">ApplicationInfo</span> <span class="n">appInfo</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">appInfo</span> <span class="o">=</span> <span class="n">getPackageManager</span><span class="o">().</span><span class="na">getApplicationInfo</span><span class="o">(</span><span class="n">getPackageName</span><span class="o">(),</span> <span class="n">PackageManager</span><span class="o">.</span><span class="na">GET_META_DATA</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">PackageManager</span><span class="o">.</span><span class="na">NameNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
 
-<p>//文字列<br>
-String value = appInfo.metaData.getString(&quot;key&quot;);<br>
-Log.d(&quot;tag&quot;, &quot;value: &quot; + value);</p>
+<span class="c1">//文字列</span>
+<span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">appInfo</span><span class="o">.</span><span class="na">metaData</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;value: &quot;</span> <span class="o">+</span> <span class="n">value</span><span class="o">);</span>
 
-<p>//画像<br>
-int smallIcon = appInfo.metaData.getInt(&quot;smallIcon&quot;);<br>
-Log.d(&quot;tag&quot;, &quot;smallIcon: &quot; + smallIcon);</p>
+<span class="c1">//画像</span>
+<span class="kt">int</span> <span class="n">smallIcon</span> <span class="o">=</span> <span class="n">appInfo</span><span class="o">.</span><span class="na">metaData</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&quot;smallIcon&quot;</span><span class="o">);</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;smallIcon: &quot;</span> <span class="o">+</span> <span class="n">smallIcon</span><span class="o">);</span>
 
-<p>//Activity<br>
-Class startClass = null;<br>
-String applicationName = null;<br>
-try {<br>
-    applicationName = getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(getPackageName(), 0)).toString();<br>
-    String activityName = appInfo.packageName + appInfo.metaData.getString(&quot;startActivity&quot;);<br>
-    startClass = Class.forName(activityName);<br>
-} catch (ClassNotFoundException | PackageManager.NameNotFoundException e) {<br>
-    e.printStackTrace();<br>
-}<br>
-Intent intent = new Intent(this, startClass);<br>
-```<br>
-<meta-data>タグ内のresourceはgetIntすることでidを取得します</p>
+<span class="c1">//Activity</span>
+<span class="n">Class</span> <span class="n">startClass</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">applicationName</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">applicationName</span> <span class="o">=</span> <span class="n">getPackageManager</span><span class="o">().</span><span class="na">getApplicationLabel</span><span class="o">(</span><span class="n">getPackageManager</span><span class="o">().</span><span class="na">getApplicationInfo</span><span class="o">(</span><span class="n">getPackageName</span><span class="o">(),</span> <span class="mi">0</span><span class="o">)).</span><span class="na">toString</span><span class="o">();</span>
+    <span class="n">String</span> <span class="n">activityName</span> <span class="o">=</span> <span class="n">appInfo</span><span class="o">.</span><span class="na">packageName</span> <span class="o">+</span> <span class="n">appInfo</span><span class="o">.</span><span class="na">metaData</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;startActivity&quot;</span><span class="o">);</span>
+    <span class="n">startClass</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">activityName</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="o">|</span> <span class="n">PackageManager</span><span class="o">.</span><span class="na">NameNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">startClass</span><span class="o">);</span>
+</code></pre></div>
+<p>※meta-dataタグ内のresourceはgetIntすることでidを取得します</p>
 
             </section>
         </div>
