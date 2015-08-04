@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+            <!--  検索窓 -->
+            <!-- <div class="top_search">
+                <form action="./" method="get">
+                    <input type="text" size="20" name="q" value="" maxlength="200" />
+                    <input type="submit" value=" 検索 " />
+                </form>
+            </div> -->
+
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <!-- <span class="credits left">Project maintained by <a href="https://github.com/n0guch1">n0guch1</a></span> -->
+                    <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
+                    <!-- パンくずの表示-->
+                    
+                    <span class="credits left"><a><a href="/">home</a> > meta-dataを使って値を登録してみた </a></span>
+                    
+                    <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
+
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> meta-dataを使って値を登録してみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <!-- ページ内容を表示 -->
+                <h3>〜meta-dataとは〜</h3>
+
+<p>AndroidManifestに<meta-data>タグを使って値を登録する事が出来ます。<br>
+他のapkから読み込んだり、設定データなどの静的データの永続化に利用出来ます。</p>
+
+<h3>〜実装〜</h3>
+
+<p><meta-data>タグは<application>タグ直下に記載します。</p>
+
+<p>■設定<br>
+AndroidManifest.xml<br>
+```java<br>
+<application<br>
+    android:allowBackup="true"<br>
+    android:icon="@mipmap/ic_launcher"<br>
+    android:label="@string/app_name"<br>
+    android:theme="@style/AppTheme"></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;!-- 文字列 --&gt;
+&lt;meta-data android:name=&quot;key&quot; android:value=&quot;value&quot;/&gt;
+&lt;!-- 画像 --&gt;
+&lt;meta-data android:name=&quot;smallIcon&quot; android:resource=&quot;@drawable/comment_icon&quot;/&gt;
+&lt;!-- 遷移時などのActivity --&gt;
+&lt;meta-data android:name=&quot;startActivity&quot; android:value=&quot;.MainActivity&quot;/&gt;
+
+&lt;activity
+android:name=&quot;.MainActivity&quot;
+android:label=&quot;@string/app_name&quot;&gt;
+.
+.
+.
+</code></pre></div>
+<p></application><br>
+```</p>
+
+<p>■取得<br>
+```java<br>
+//meta-dataに必要なappInfo取得<br>
+ApplicationInfo appInfo = null;<br>
+try {<br>
+    appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);<br>
+} catch (PackageManager.NameNotFoundException e) {<br>
+    e.printStackTrace();<br>
+}</p>
+
+<p>//文字列<br>
+String value = appInfo.metaData.getString(&quot;key&quot;);<br>
+Log.d(&quot;tag&quot;, &quot;value: &quot; + value);</p>
+
+<p>//画像<br>
+int smallIcon = appInfo.metaData.getInt(&quot;smallIcon&quot;);<br>
+Log.d(&quot;tag&quot;, &quot;smallIcon: &quot; + smallIcon);</p>
+
+<p>//Activity<br>
+Class startClass = null;<br>
+String applicationName = null;<br>
+try {<br>
+    applicationName = getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(getPackageName(), 0)).toString();<br>
+    String activityName = appInfo.packageName + appInfo.metaData.getString(&quot;startActivity&quot;);<br>
+    startClass = Class.forName(activityName);<br>
+} catch (ClassNotFoundException | PackageManager.NameNotFoundException e) {<br>
+    e.printStackTrace();<br>
+}<br>
+Intent intent = new Intent(this, startClass);<br>
+```<br>
+<meta-data>タグ内のresourceはgetIntすることでidを取得します</p>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>
