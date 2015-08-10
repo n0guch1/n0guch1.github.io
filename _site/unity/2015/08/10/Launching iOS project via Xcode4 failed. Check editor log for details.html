@@ -40,120 +40,40 @@
                     <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
                     <!-- パンくずの表示-->
                     
-                    <span class="credits left"><a><a href="/">home</a> > git 記事一覧 </a></span>
+                    <span class="credits left"><a><a href="/">home</a> > Unity4.x系にてXcode6.x系以上をbuildする方法 </a></span>
                     
                     <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
 
                 </div>
                 <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
                 
-                <div id="category">
-                    <h2 class="category-title"><span class="icon large" data-icon=","></span> Category</h2>
-                    <ul id="category-list" class="alt">
-                    
-                      <li><a href="/category/blog/">blog</a>(2)</li>
-                    
-                      <li><a href="/category/その他/">その他</a>(6)</li>
-                    
-                      <li><a href="/category/android/">android</a>(6)</li>
-                    
-                      <li><a href="/category/ios/">ios</a>(1)</li>
-                    
-                      <li><a href="/category/git/">git</a>(1)</li>
-                    
-                      <li><a href="/category/unity/">unity</a>(1)</li>
-                    
-                    </ul>
-                </div>
-                
                 <!-- カテゴリータグの追加 -->
-                <h2> git 記事一覧 </h2>
+                <h2> Unity4.x系にてXcode6.x系以上をbuildする方法 </h2>
                 <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
                 </br>
                 <!-- ページ内容を表示 -->
-                <!--  選択したカテゴリーに対応する記事一覧を出力する-->
-<!--  タイトルに濁音を含めないこと-->
-<ul>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="archive_list">
-    <time datetime='2015-07-15'>2015/07/15</time><br/> <a class="archive_list_article_link" href='/git/2015/07/15/TGitCache.exe%E3%81%AE%E6%9A%B4%E8%B5%B0%E3%81%AB%E5%AF%BE%E5%BF%9C%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F.html'>TGitCache.exeの暴走に対応してみた</a>
-    <p class="summary">TGitCache.exeのCPU占有率が25%になる現象を改善する方法について</p>
-    <!-- <ul class="tag_list">
-      
-      <li class="inline archive_list"><a class="category_list_link" href="/category/git">git</a></li>
-      
-    </ul> -->
-  </li>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-</ul>
+                <h3>〜エラー内容について〜</h3>
+
+<p>Unity4系でiOS端末にビルドを実行した際以下のエラーが発生しました。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">UnityException: Launching iOS project via Xcode4 failed. Check editor log for details
+</code></pre></div>
+<p>Xcode4を通してiOSプロジェクトをビルドしたら失敗しました、と。。。<br>
+自分の場合はXcode4ですらないですが(Xcode6でbuild)、ググってみると同様のエラーが多数ありました。<br>
+結果から言うとUnity4がリリースされた時のXcodeVerまでしか対応してないよ、と。<br>
+まあ確かに。</p>
+
+<h3>〜修正内容〜</h3>
+
+<p>1.以下のファイルに記載されている「DVTPlugInCompatibilityUUIDs」をコピー</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Applications/Xcode.app/Contents/Info.plist
+</code></pre></div>
+<p>2.以下のファイルの「DVTPlugInCompatibilityUUIDs」にコピー内容を追加</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Tools/OSX/Unity4XC.xcplugin/Contents/Info.plist
+</code></pre></div>
+<p>※UnityVerが古いとパスが変わります</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Applications/Unity/Unity.app/Contents/BuildTargetTools/iPhonePlayer/Unity4XC.xcplugin/Contents/Info.plist
+</code></pre></div>
+<p>3.Unity,Xcodeを再起動</p>
 
             </section>
         </div>
