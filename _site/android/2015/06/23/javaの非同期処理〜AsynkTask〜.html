@@ -182,6 +182,20 @@ final修飾子を付けるかクラス変数(static)に持たせる必要があ�
 <span class="o">}</span>
 <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span><span class="s">&quot;完了&quot;</span><span class="o">);</span>
 </code></pre></div>
+<h3> 〜テンプレート〜 </h3>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Void</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//非同期処理</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">Void</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//非同期後のUIスレッド処理</span>
+    <span class="o">}</span>
+<span class="o">}.</span><span class="na">execute</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span><span class="kc">null</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+</code></pre></div>
             </section>
         </div>
 

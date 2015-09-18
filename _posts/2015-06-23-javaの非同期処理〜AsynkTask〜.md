@@ -170,3 +170,20 @@ try {
 }
 Log.v("tag","完了");
 ```
+
+<h3> 〜テンプレート〜 </h3>
+
+```java
+new AsyncTask<Void, Void, Void>() {
+    @Override
+    protected Void doInBackground(Void... params) {
+        //非同期処理
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+        //非同期後のUIスレッド処理
+    }
+}.execute(null,null,null);
+```
