@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+            <!--  検索窓 -->
+            <!-- <div class="top_search">
+                <form action="./" method="get">
+                    <input type="text" size="20" name="q" value="" maxlength="200" />
+                    <input type="submit" value=" 検索 " />
+                </form>
+            </div> -->
+
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <!-- <span class="credits left">Project maintained by <a href="https://github.com/n0guch1">n0guch1</a></span> -->
+                    <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
+                    <!-- パンくずの表示-->
+                    
+                    <span class="credits left"><a><a href="/">home</a> > Git便利コマンド一覧 </a></span>
+                    
+                    <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
+
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Git便利コマンド一覧 </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <!-- ページ内容を表示 -->
+                <h3>〜Gitとは〜</h3>
+
+<p>バージョン管理システムです。<br>
+他にもSVN(Subversion)と言ったバージョン管理システムがあります。</p>
+
+<h3>〜Gitインストール〜</h3>
+
+<p>Macのターミナルで以下コマンドを実行するだけです<br>
+※HomeBrewが入っていない場合はこちらを参照 : http://qiita.com/is0me/items/475fdbc4d770534f9ef1</p>
+
+<ol>
+<li>「brew update」を実行</li>
+<li>「brew install git」を実行</li>
+<li>「git –version」を実行してインストールされた事を確認する</li>
+</ol>
+
+<p>WindowsはTortoiseGit(UIでGit操作を可能にするツール)があるのでそちらをインストールすれば、<br>
+コンソールとUIでGitが使えるようになります。<br>
+TortoiseGitのインストール手順は割愛します。</p>
+
+<h3>〜Gitのよく使うコマンド抜粋〜</h3>
+
+<h4>【基本】</h4>
+
+<ul>
+<li>clone</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git clone クローン用URL
+</code></pre></div>
+<ul>
+<li>status</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git status
+</code></pre></div>
+<ul>
+<li>branch作成</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout -b 作成するブランチ名 remotes/origin/派生元のブランチ名
+※リモートに作成する場合 git push origin 作成するブランチ名
+</code></pre></div>
+<ul>
+<li>branch確認</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ローカル : git branch
+リモート : git branch —remote
+全て : git branch -a
+</code></pre></div>
+<ul>
+<li>branch切り替え</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout ブランチ名
+</code></pre></div>
+<ul>
+<li>branch削除</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git branch -d ブランチ名
+強制 : git branch -D ブランチ名
+※リモートを消す場合 git push origin :ブランチ名
+※Git1.7以降のみ : git push --delete origin ブランチ名　でも削除可能
+</code></pre></div>
+<ul>
+<li>add</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">個別 : git add ファイルパス
+全て : git add . または git add --all
+</code></pre></div>
+<ul>
+<li>add取り消し</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git reset HEAD ファイルパス
+</code></pre></div>
+<ul>
+<li>commit</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git commit -m &quot;コミットメッセージ&quot;
+</code></pre></div>
+<ul>
+<li>push</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git push origin ブランチ名
+強制 : git push -f origin ブランチ名 (強制プッシュは通常使わない)
+※追跡ブランチを設定していない場合は「origin ブランチ名」を付ける
+</code></pre></div>
+<ul>
+<li>log</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git log
+oneline : git log --oneline
+※「q」で終了
+</code></pre></div>
+<ul>
+<li>merge</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout master
+git pull
+git merge hoge
+git push origin master
+※すでにあるhogeブランチをmasterにマージしてリモートにプッシュ
+</code></pre></div>
+<ul>
+<li>修正部分の取り消し</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">個別 : git checkout ファイルパス
+全て : git checkout .
+</code></pre></div>
+<h4>【コミット修正】</h4>
+
+<ul>
+<li>直前のコミットログ修正</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git commit --amend -m “修正コミットメッセージ”
+</code></pre></div>
+<ul>
+<li>直前のコミットに後から修正を追加</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add ファイル名
+git commit --amend
+(git commit --amend -m “同時にコミットメーセジを修正する場合”)
+※vimが起動するので保存(:wq)を実行
+</code></pre></div>
+<ul>
+<li>直前以外または複数のコミットログ修正</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git rebase -i コミットNo. (コミットNo.はgit log --onelineで確認)
+※Vimが起動するので修正したいコミットの「pick」を「edit」に修正
+git commit --amend -m “同時にコミットメーセージを修正する場合”
+git rebase --continue (次に進む)
+</code></pre></div>
+<ul>
+<li>直前以外または複数のコミットに後から修正を追加</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git rebase -i コミットNo.
+git add ファイル名
+git commit --amend -m “同時にコミットメーセージを修正する場合”
+※vimが起動するので保存(:wq)を実行
+git rebase --continue (次に進む)
+</code></pre></div>
+<ul>
+<li>rebaseの処理を途中でキャンセル</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git rebase --abort
+</code></pre></div>
+<ul>
+<li>コミットを巻き戻す</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ファイル変更を残す : git reset --soft HEAD^
+ファイル変更を残さない : git reset --hard HEAD^
+※^は直前のコミットを対象にする
+</code></pre></div>
+<ul>
+<li>コミットを打ち消す</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git revert コミットNo.
+git push origin ブランチ名
+※差分を相殺したコミットをプッシュしている
+</code></pre></div>
+<h4>【stash】</h4>
+
+<ul>
+<li>変更を一時的に退避</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git stash
+</code></pre></div>
+<ul>
+<li>stashの確認</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">リストのみ : git stash list
+変更点も確認 : git stash list -p
+変更点+ファイル一覧も確認 : git stash show &lt;stash名&gt;
+</code></pre></div>
+<ul>
+<li>stashの復活と削除</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git stash pop stash@{0}
+※最新のstashの復活
+</code></pre></div>
+<ul>
+<li>誤って削除してしまったstashを復活させる</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git fsck --unreachable | grep commit | cut -d\  -f3 | xargs git log --merges --no-walk --grep=WIP
+git cherry-pick -n -m1 コミットNo.
+</code></pre></div>
+<h4>【config】</h4>
+
+<ul>
+<li>設定</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global user.name ユーザー名
+git config --global user.email メールアドレス
+</code></pre></div>
+<ul>
+<li>確認</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global --list
+</code></pre></div>
+<ul>
+<li>削除</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global --unset-all user.name
+git config --global --unset-all user.email
+</code></pre></div>
+<p>--globalオプションを付けるとGit全体の設定に反映する。<br>
+付けない場合はその.gitプロジェクトのみ反映する。</p>
+
+<h4>【.git】</h4>
+
+<ul>
+<li>.gitの作成</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git init
+</code></pre></div>
+<ul>
+<li>.gitの削除(git管理を外してソースのみ残す)</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">rm -rf .git/
+</code></pre></div>
+<h4>【その他】</h4>
+
+<p>よくリモートにミスプッシュしてしまったコミットの取り消しを以下の様に取り消していますが、これはよろしくない(特に複数人で作業してる場合)。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git reset ―hard HEAD^
+git push -f origin master(ブランチ名)
+※-fオプションで無理矢理プッシュしているので他に作業している人が居る場合は影響する
+</code></pre></div>
+<p>ミスコミットは履歴に残るものなので、無理矢理消そうとせずにrevertをかける事</p>
+
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>
