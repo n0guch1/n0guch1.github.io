@@ -40,135 +40,47 @@
                     <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
                     <!-- パンくずの表示-->
                     
-                    <span class="credits left"><a><a href="/">home</a> > blog 記事一覧 </a></span>
+                    <span class="credits left"><a><a href="/">home</a> > Macで.zip作成 </a></span>
                     
                     <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
 
                 </div>
                 <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
                 
-                <div id="category">
-                    <h2 class="category-title"><span class="icon large" data-icon=","></span> Category</h2>
-                    <ul id="category-list" class="alt">
-                    
-                      <li><a href="/category/blog/">blog</a>(2)</li>
-                    
-                      <li><a href="/category/その他/">その他</a>(7)</li>
-                    
-                      <li><a href="/category/android/">android</a>(6)</li>
-                    
-                      <li><a href="/category/ios/">ios</a>(1)</li>
-                    
-                      <li><a href="/category/git/">git</a>(1)</li>
-                    
-                      <li><a href="/category/unity/">unity</a>(1)</li>
-                    
-                    </ul>
-                </div>
-                
                 <!-- カテゴリータグの追加 -->
-                <h2> blog 記事一覧 </h2>
+                <h2> Macで.zip作成 </h2>
                 <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
                 </br>
                 <!-- ページ内容を表示 -->
-                <!--  選択したカテゴリーに対応する記事一覧を出力する-->
-<!--  タイトルに濁音を含めないこと-->
-<ul>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="archive_list">
-    <time datetime='2015-07-03'>2015/07/03</time><br/> <a class="archive_list_article_link" href='/blog/2015/07/03/Blog%E3%81%ABJekyll%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6Category%E3%81%AE%E8%BF%BD%E5%8A%A0.html'>BlogにJekyllを使ってCategoryの追加</a>
-    <p class="summary">BlogにCategoryを追加する方法について</p>
-    <!-- <ul class="tag_list">
-      
-      <li class="inline archive_list"><a class="category_list_link" href="/category/blog">blog</a></li>
-      
-    </ul> -->
-  </li>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="archive_list">
-    <time datetime='2014-12-05'>2014/12/05</time><br/> <a class="archive_list_article_link" href='/blog/2014/12/05/startGithubPage.html'>GithubPage作成</a>
-    <p class="summary">Github.ioでのブログの作り方について</p>
-    <!-- <ul class="tag_list">
-      
-      <li class="inline archive_list"><a class="category_list_link" href="/category/blog">blog</a></li>
-      
-    </ul> -->
-  </li>
-  
-  
-  
-</ul>
+                <h3>〜圧縮〜</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//file
+zip 圧縮後のファイル名.zip ファイルのパス
 
+//dir
+zip -r 圧縮後のファイル名.zip ディレクトリのパス
+</code></pre></div>
+<h3>〜パスワードを付けて圧縮〜</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//file
+zip -e 圧縮後のファイル名.zip ファイルのパス
+
+//dir
+zip -e -r 圧縮後のファイル名.zip ディレクトリのパス
+</code></pre></div>
+<h3>〜解凍〜</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">unzip ファイル名.zip
+</code></pre></div>
+<h3>〜メタデータの削除〜</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">zip --delete ファイル名.zip &quot;*.DS_Store&quot;
+zip --delete ファイル名.zip &quot;*__MACOSX*&quot;
+</code></pre></div>
+<h3>〜文字化け対策〜</h3>
+
+<p>windowsに渡す場合は日本語が化けるので互換性のあるアプリをインストールする</p>
+
+<h3>〜おまけ〜</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//gzip
+tar -zcvf 圧縮後のファイル名.tar.gz ファイルのパス
+</code></pre></div>
             </section>
         </div>
 
