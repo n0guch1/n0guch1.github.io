@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>N0guch1.GitHub.io by n0guch1</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="javascripts/respond.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="stylesheets/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+    <body>
+        <div id="header">
+            <nav>
+                <li class="fork"><a href="https://github.com/n0guch1">View On GitHub</a></li>
+            </nav>
+            <!--  検索窓 -->
+            <!-- <div class="top_search">
+                <form action="./" method="get">
+                    <input type="text" size="20" name="q" value="" maxlength="200" />
+                    <input type="submit" value=" 検索 " />
+                </form>
+            </div> -->
+
+        </div><!-- end header -->
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1><a href="http://n0guch1.github.io/">N0guch1.GitHub.io</a></h1>
+                    <p></p>
+                    <hr>
+                    <!-- <span class="credits left">Project maintained by <a href="https://github.com/n0guch1">n0guch1</a></span> -->
+                    <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
+                    <!-- パンくずの表示-->
+                    
+                    <span class="credits left"><a><a href="/">home</a> > Facebook認証(Android)を使ってみた </a></span>
+                    
+                    <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
+
+                </div>
+                <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
+                
+                <!-- カテゴリータグの追加 -->
+                <h2> Facebook認証(Android)を使ってみた </h2>
+                <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
+                </br>
+                <!-- ページ内容を表示 -->
+                <p>今回実装したコードは一番下に乗せてあります。</p>
+
+<h3> 〜Facebook認証とは〜 </h3>
+
+<p>公式:<a href="https://developers.facebook.com/docs/facebook-login/android">Facebook Login for Android</a><br>
+Facebook認証をライブラリを使って手軽に行うことが出来ます。<br>
+認証を行うことでFacebookが提供するAPIを利用することが出来ます。</p>
+
+<h3> 〜前半 セットアップ〜 </h3>
+
+<p>公式手順:<a href="https://developers.facebook.com/docs/android/getting-started">Getting Started Android SDK</a></p>
+
+<p>公式手順に沿って実装して行きます。<br>
+前半は公式の「Getting Started Android SDK」通りに進めて後半は「Facebook Login for Android」を参考に進めていきます。<br>
+「Getting Started Android SDK」の大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li>Projectの最小SDKバージョンを「API15(Android 4.0.3)」に設定します</li>
+<li>Projectの「build.gradle」の「repositories」に「mavenCentral()」を追記します</li>
+<li>Moduleの「build.gradle」の「dependencies」に「compile &#39;com.facebook.android:facebook-android-sdk:4.7.0&#39;」を追記します※最新verは公式サイト参照</li>
+<li>developerサイトで登録したアプリにパッケージ名を設定していない場合は設定する</li>
+<li>developerサイトで登録したアプリにkeyHashesを設定していない場合は設定する</li>
+<li>AndroidManifestの設定(activityの登録,ApplicationIdの設定など)</li>
+</ol>
+
+<p>その他参考:<a href="https://developers.facebook.com/quickstarts/?platform=android">Quick Start for Android</a></p>
+
+<ul>
+<li>詰まりポイント
+
+<ul>
+<li>developerサイトで登録したアプリのパッケージ名と同様のパッケージ名をProjectで設定すること</li>
+<li>keyHashesを取得するコマンドは以下の通り</li>
+</ul></li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//mac
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+
+//windows
+keytool -exportcert -alias androiddebugkey -keystore %HOMEPATH%\.android\debug.keystore | openssl sha1 -binary | openssl base64
+</code></pre></div>
+<h3> 〜後半 Facebook認証の実装〜 </h3>
+
+<p>公式手順2：<a href="https://developers.facebook.com/docs/facebook-login/android">Facebook Login for Android</a></p>
+
+<p>セットアップが終わったところで、メイン機能の実装に入ります。<br>
+「Facebook Login for Android」の大まかな流れは以下の通りになります。</p>
+
+<ol>
+<li>.xmlにLoginButtonを実装</li>
+<li>FacebookSDKの初期化(sdkInitialize)を実装</li>
+<li>登録後のコールバック(registerCallback)を実装</li>
+<li>ログイン画面から結果の受け取り(onActivityResult)を実装</li>
+</ol>
+
+<ul>
+<li>詰まりポイント
+
+<ul>
+<li>sdkInitializeはsetContentViewでxmlを読み込む前に実装すること</li>
+</ul></li>
+</ul>
+
+<h3> 〜実装コード〜 </h3>
+
+<ul>
+<li>MainActivity.java</li>
+</ul>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">example</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">facebooksample</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.content.Intent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v7.app.AppCompatActivity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.util.Log</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.facebook.CallbackManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.FacebookCallback</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.FacebookException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.FacebookSdk</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.appevents.AppEventsLogger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.login.LoginManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.login.LoginResult</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">AppCompatActivity</span> <span class="o">{</span>
+    <span class="n">CallbackManager</span> <span class="n">callbackManager</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="kd">final</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">FacebookSdk</span><span class="o">.</span><span class="na">sdkInitialize</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">());</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+
+        <span class="n">callbackManager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="o">.</span><span class="na">Factory</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+        <span class="n">LoginManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">registerCallback</span><span class="o">(</span><span class="n">callbackManager</span><span class="o">,</span>
+                <span class="k">new</span> <span class="n">FacebookCallback</span><span class="o">&lt;</span><span class="n">LoginResult</span><span class="o">&gt;()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">(</span><span class="n">LoginResult</span> <span class="n">loginResult</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// App code</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;onSuccess&quot;</span><span class="o">);</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;Token:&quot;</span> <span class="o">+</span> <span class="n">loginResult</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">().</span><span class="na">getToken</span><span class="o">());</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;UserId:&quot;</span> <span class="o">+</span> <span class="n">loginResult</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">().</span><span class="na">getUserId</span><span class="o">());</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;Expires:&quot;</span> <span class="o">+</span> <span class="n">loginResult</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">().</span><span class="na">getExpires</span><span class="o">());</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCancel</span><span class="o">()</span> <span class="o">{</span>
+                        <span class="c1">// App code</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;onCancel&quot;</span><span class="o">);</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">FacebookException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// App code</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;tag&quot;</span><span class="o">,</span> <span class="s">&quot;onError:&quot;</span> <span class="o">+</span> <span class="n">exception</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onActivityResult</span><span class="o">(</span><span class="n">requestCode</span><span class="o">,</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+        <span class="n">callbackManager</span><span class="o">.</span><span class="na">onActivityResult</span><span class="o">(</span><span class="n">requestCode</span><span class="o">,</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onResume</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onResume</span><span class="o">();</span>
+
+        <span class="c1">// Logs &#39;install&#39; and &#39;app activate&#39; App Events.</span>
+        <span class="n">AppEventsLogger</span><span class="o">.</span><span class="na">activateApp</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
+
+        <span class="c1">// Logs &#39;app deactivate&#39; App Event.</span>
+        <span class="n">AppEventsLogger</span><span class="o">.</span><span class="na">deactivateApp</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<ul>
+<li>activity_main.xml</li>
+</ul>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span> <span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+    <span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span> <span class="na">android:paddingLeft=</span><span class="s">&quot;@dimen/activity_horizontal_margin&quot;</span>
+    <span class="na">android:paddingRight=</span><span class="s">&quot;@dimen/activity_horizontal_margin&quot;</span>
+    <span class="na">android:paddingTop=</span><span class="s">&quot;@dimen/activity_vertical_margin&quot;</span>
+    <span class="na">android:paddingBottom=</span><span class="s">&quot;@dimen/activity_vertical_margin&quot;</span> <span class="na">tools:context=</span><span class="s">&quot;.MainActivity&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;com.facebook.login.widget.LoginButton</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/login_button&quot;</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_centerInParent=</span><span class="s">&quot;true&quot;</span>
+        <span class="na">android:layout_gravity=</span><span class="s">&quot;center_horizontal&quot;</span>
+        <span class="na">android:layout_marginBottom=</span><span class="s">&quot;30dp&quot;</span>
+        <span class="na">android:layout_marginTop=</span><span class="s">&quot;30dp&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/RelativeLayout&gt;</span>
+</code></pre></div>
+<ul>
+<li>AndroidManifest.xml</li>
+</ul>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">package=</span><span class="s">&quot;example.com.facebooksample&quot;</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;application</span>
+        <span class="na">android:allowBackup=</span><span class="s">&quot;true&quot;</span>
+        <span class="na">android:icon=</span><span class="s">&quot;@mipmap/ic_launcher&quot;</span>
+        <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span>
+        <span class="na">android:supportsRtl=</span><span class="s">&quot;true&quot;</span>
+        <span class="na">android:theme=</span><span class="s">&quot;@style/AppTheme&quot;</span> <span class="nt">&gt;</span>
+
+        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.MainActivity&quot;</span> <span class="nt">&gt;</span>
+            <span class="nt">&lt;intent-filter&gt;</span>
+                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span> <span class="nt">/&gt;</span>
+
+                <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/intent-filter&gt;</span>
+        <span class="nt">&lt;/activity&gt;</span>
+
+        <span class="c">&lt;!-- facebook認証 --&gt;</span>
+        <span class="nt">&lt;meta-data</span> <span class="na">android:name=</span><span class="s">&quot;com.facebook.sdk.ApplicationId&quot;</span> <span class="na">android:value=</span><span class="s">&quot;@string/facebook_app_id&quot;</span><span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;com.facebook.FacebookActivity&quot;</span>
+            <span class="na">android:configChanges=</span>
+                <span class="s">&quot;keyboard|keyboardHidden|screenLayout|screenSize|orientation&quot;</span>
+            <span class="na">android:theme=</span><span class="s">&quot;@android:style/Theme.Translucent.NoTitleBar&quot;</span>
+            <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;provider</span> <span class="na">android:authorities=</span><span class="s">&quot;com.facebook.app.FacebookContentProvider1234&quot;</span>
+            <span class="na">android:name=</span><span class="s">&quot;com.facebook.FacebookContentProvider&quot;</span>
+            <span class="na">android:exported=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+        <span class="c">&lt;!-- facebook認証 --&gt;</span>
+
+    <span class="nt">&lt;/application&gt;</span>
+
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre></div>
+<ul>
+<li>strings.xml</li>
+</ul>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">resources</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">string</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;app_name&quot;</span><span class="o">&gt;</span><span class="n">FacebookSample</span><span class="o">&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">string</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;facebook_app_id&quot;</span><span class="o">&gt;</span><span class="n">xxxxxxxxxxxxxxxxx</span><span class="o">&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">resources</span><span class="o">&gt;</span>
+</code></pre></div>
+            </section>
+        </div>
+
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+</html>

@@ -77,7 +77,11 @@
 pushせずにローカルにサーバーを立てて簡単に作成した記事を確認できる!</p>
 
 <ol>
-<li>コマンドでjekyllをインストール「sudo gem install jekyll」</li>
+<li>コマンドでjekyllをインストール「sudo gem install jekyll -V」
+※-Vオプションで進捗率取得する。
+追記:上記コマンドだとv3.0.0がインストールされるが自分の環境だとエラーが出た。rubyを上げるか以下のコマンドを実行
+「sudo gem uninstall jekyll」※すでに入れている場合一回削除
+「sudo gem install jekyll -v 2.5.3」</li>
 <li>ymlファイルを作成</li>
 <li>ymlのあるディレクトリで「jekyll server」実行</li>
 <li>表示された「serverAdress」にアクセスして確認</li>

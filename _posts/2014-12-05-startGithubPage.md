@@ -27,7 +27,11 @@ summary: Github.ioでのブログの作り方について
 マークダウンを書くときにはjekyllをインストールしておくと便利。
 pushせずにローカルにサーバーを立てて簡単に作成した記事を確認できる!
 
-1. コマンドでjekyllをインストール「sudo gem install jekyll」
+1. コマンドでjekyllをインストール「sudo gem install jekyll -V」
+※-Vオプションで進捗率取得する。
+追記:上記コマンドだとv3.0.0がインストールされるが自分の環境だとエラーが出た。rubyを上げるか以下のコマンドを実行
+「sudo gem uninstall jekyll」※すでに入れている場合一回削除
+「sudo gem install jekyll -v 2.5.3」
 2. ymlファイルを作成
 3. ymlのあるディレクトリで「jekyll server」実行
 4. 表示された「serverAdress」にアクセスして確認

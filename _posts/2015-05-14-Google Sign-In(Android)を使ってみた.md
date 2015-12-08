@@ -39,7 +39,7 @@ Google認証をライブラリを使って手軽に行うことが出来ます�
 
 公式手順2：[Google Sign-In for Android](https://developers.google.com/identity/sign-in/android/sign-in)
 
-セットアップが終わったところで、メイン機能の肉付けに入ります。
+セットアップが終わったところで、メイン機能の実装に入ります。
 大まかな流れは以下の通りになります。
 
 1. SignInButtonを作成
