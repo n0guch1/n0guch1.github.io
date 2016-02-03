@@ -79,7 +79,12 @@ TortoiseGitのインストール手順は割愛します。</p>
 <ul>
 <li>clone</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone クローン用URL
+<div class="highlight"><pre><code class="language-text" data-lang="text">//通常
+git clone クローン用URL
+//パスワード指定
+git clone https://アカウント名:パスワード@hoge.co.jp
+//アカウント名やパスワードに@などの記号を使っている場合はPercentEncodeする
+//@の場合は%40で入力
 </code></pre></div>
 <ul>
 <li>status</li>
@@ -90,13 +95,13 @@ TortoiseGitのインストール手順は割愛します。</p>
 <li>branch作成</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git checkout -b 作成するブランチ名 remotes/origin/派生元のブランチ名
-※リモートに作成する場合 git push origin 作成するブランチ名
+//リモートに作成する場合 git push origin 作成するブランチ名
 </code></pre></div>
 <ul>
 <li>branch確認</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ローカル : git branch
-リモート : git branch —remote
+<div class="highlight"><pre><code class="language-text" data-lang="text">ローカル一覧 : git branch
+リモート一覧 : git branch —remote
 全て : git branch -a
 </code></pre></div>
 <ul>
@@ -109,8 +114,13 @@ TortoiseGitのインストール手順は割愛します。</p>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git branch -d ブランチ名
 強制 : git branch -D ブランチ名
-※リモートを消す場合 git push origin :ブランチ名
-※Git1.7以降のみ : git push --delete origin ブランチ名　でも削除可能
+//リモートを消す場合 git push origin :ブランチ名
+//Git1.7以降のみ : git push --delete origin ブランチ名　でも削除可能
+</code></pre></div>
+<ul>
+<li>リモートで消されたブランチをローカルのリモートブランチ一覧に反映</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git fetch origin --prune
 </code></pre></div>
 <ul>
 <li>add</li>
@@ -124,6 +134,13 @@ TortoiseGitのインストール手順は割愛します。</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git reset HEAD ファイルパス
 </code></pre></div>
 <ul>
+<li>1つのファイル内で細かくadd</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add -p
+//add対象が出るのでyで追加,nで追加しない
+//対象の中でさらに細かくする場合はeで変数する
+</code></pre></div>
+<ul>
 <li>commit</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git commit -m &quot;コミットメッセージ&quot;
@@ -133,14 +150,15 @@ TortoiseGitのインストール手順は割愛します。</p>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git push origin ブランチ名
 強制 : git push -f origin ブランチ名 (強制プッシュは通常使わない)
-※追跡ブランチを設定していない場合は「origin ブランチ名」を付ける
+//追跡ブランチを設定していない場合は「origin ブランチ名」を付ける
+//追跡ブランチは-uで設定する
 </code></pre></div>
 <ul>
 <li>log</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">通常 : git log
 oneline : git log --oneline
-※「q」で終了
+//「q」で終了
 </code></pre></div>
 <ul>
 <li>merge</li>
@@ -149,13 +167,30 @@ oneline : git log --oneline
 git pull
 git merge hoge
 git push origin master
-※すでにあるhogeブランチをmasterにマージしてリモートにプッシュ
+//すでにあるhogeブランチをmasterにマージしてリモートにプッシュ
 </code></pre></div>
 <ul>
-<li>修正部分の取り消し</li>
+<li>gerp</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git grep &quot;検索単語&quot;
+</code></pre></div>
+<ul>
+<li>ファイル修正分の取り消し</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">個別 : git checkout ファイルパス
 全て : git checkout .
+</code></pre></div>
+<ul>
+<li>ファイル(コミット後)の差分確認</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">全体 : git log -p
+個別 : git log -p コミットNo.
+</code></pre></div>
+<ul>
+<li>ファイル(コミット前)の差分確認</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">全体 : git diff
+個別 : git diff ファイルパス
 </code></pre></div>
 <h4>【コミット修正】</h4>
 
@@ -170,13 +205,13 @@ git push origin master
 <div class="highlight"><pre><code class="language-text" data-lang="text">git add ファイル名
 git commit --amend
 (git commit --amend -m “同時にコミットメーセジを修正する場合”)
-※vimが起動するので保存(:wq)を実行
+//vimが起動するので保存(:wq)を実行
 </code></pre></div>
 <ul>
 <li>直前以外または複数のコミットログ修正</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git rebase -i コミットNo. (コミットNo.はgit log --onelineで確認)
-※Vimが起動するので修正したいコミットの「pick」を「edit」に修正
+//Vimが起動するので修正したいコミットの「pick」を「edit」に修正
 git commit --amend -m “同時にコミットメーセージを修正する場合”
 git rebase --continue (次に進む)
 </code></pre></div>
@@ -186,27 +221,38 @@ git rebase --continue (次に進む)
 <div class="highlight"><pre><code class="language-text" data-lang="text">git rebase -i コミットNo.
 git add ファイル名
 git commit --amend -m “同時にコミットメーセージを修正する場合”
-※vimが起動するので保存(:wq)を実行
+//vimが起動するので保存(:wq)を実行
 git rebase --continue (次に進む)
 </code></pre></div>
 <ul>
-<li>rebaseの処理を途中でキャンセル</li>
+<li>コミットの巻き戻し</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git rebase -i コミットNo.
+</code></pre></div>
+<ul>
+<li>巻き戻しをキャンセル</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git rebase --abort
 </code></pre></div>
 <ul>
-<li>コミットを巻き戻す</li>
+<li>コミットの取り消し</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">ファイル変更を残す : git reset --soft HEAD^
 ファイル変更を残さない : git reset --hard HEAD^
-※^は直前のコミットを対象にする
+//^は直前のコミットを対象にする
 </code></pre></div>
 <ul>
-<li>コミットを打ち消す</li>
+<li>取り消しをキャンセル</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git reset --hard HEAD@{1}
+//{1}の部分はgit reflogで確認する
+</code></pre></div>
+<ul>
+<li>コミットの打ち消し</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git revert コミットNo.
 git push origin ブランチ名
-※差分を相殺したコミットをプッシュしている
+//差分を相殺したコミットをプッシュしている
 </code></pre></div>
 <h4>【stash】</h4>
 
@@ -226,7 +272,7 @@ git push origin ブランチ名
 <li>stashの復活と削除</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git stash pop stash@{0}
-※最新のstashの復活
+//最新のstashの復活
 </code></pre></div>
 <ul>
 <li>誤って削除してしまったstashを復活させる</li>
@@ -243,6 +289,12 @@ git cherry-pick -n -m1 コミットNo.
 git config --global user.email メールアドレス
 </code></pre></div>
 <ul>
+<li>プロキシ設定(環境変数に設定されていない場合)</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --system http.proxy http://xxxxxxxxxx:ポート番号
+git config --system https.proxy http://xxxxxxxxxx:ポート番号
+</code></pre></div>
+<ul>
 <li>確認</li>
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git config --global --list
@@ -252,6 +304,17 @@ git config --global user.email メールアドレス
 </ul>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git config --global --unset-all user.name
 git config --global --unset-all user.email
+</code></pre></div>
+<ul>
+<li>リモートリポジトリURLの変更</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git remote set-url origin GitのURL
+</code></pre></div>
+<ul>
+<li>ファイルアップロードの上限設定</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config http.postBuffer 681574400
+//上限を650Mに変更
 </code></pre></div>
 <p>--globalオプションを付けるとGit全体の設定に反映する。<br>
 付けない場合はその.gitプロジェクトのみ反映する。</p>
@@ -270,12 +333,14 @@ git config --global --unset-all user.email
 </code></pre></div>
 <h4>【その他】</h4>
 
-<p>よくリモートにミスプッシュしてしまったコミットの取り消しを以下の様に取り消していますが、これはよろしくない(特に複数人で作業してる場合)。</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git reset ―hard HEAD^
+<p>・よくリモートにミスプッシュしてしまったコミットの取り消しを以下の様に取り消していますが、これはよろしくない(特に複数人で作業してる場合)。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git reset --hard HEAD^
 git push -f origin master(ブランチ名)
 ※-fオプションで無理矢理プッシュしているので他に作業している人が居る場合は影響する
 </code></pre></div>
 <p>ミスコミットは履歴に残るものなので、無理矢理消そうとせずにrevertをかける事</p>
+
+<p>・</p>
 
             </section>
         </div>

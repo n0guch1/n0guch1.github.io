@@ -40,133 +40,64 @@
                     <!-- <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span> -->
                     <!-- パンくずの表示-->
                     
-                    <span class="credits left"><a><a href="/">home</a> > ios 記事一覧 </a></span>
+                    <span class="credits left"><a><a href="/">home</a> > Node.jsを使ってみた </a></span>
                     
                     <span class="credits right">Project maintained. GitHub Pages &mdash; by <a href="https://github.com/n0guch1">n0guch1</a></span>
 
                 </div>
                 <!-- カテゴリータグの追加。Topページまたはカテゴリ一覧ページのみ表示する-->
                 
-                <div id="category">
-                    <h2 class="category-title"><span class="icon large" data-icon=","></span> Category</h2>
-                    <ul id="category-list" class="alt">
-                    
-                      <li><a href="/category/blog/">blog</a>(2)</li>
-                    
-                      <li><a href="/category/その他/">その他</a>(8)</li>
-                    
-                      <li><a href="/category/android/">android</a>(7)</li>
-                    
-                      <li><a href="/category/ios/">ios</a>(1)</li>
-                    
-                      <li><a href="/category/git/">git</a>(1)</li>
-                    
-                      <li><a href="/category/unity/">unity</a>(1)</li>
-                    
-                    </ul>
-                </div>
-                
                 <!-- カテゴリータグの追加 -->
-                <h2> ios 記事一覧 </h2>
+                <h2> Node.jsを使ってみた </h2>
                 <!-- 見やすくするためTopページ以外はタイトル下に改行を入れる -->
                 </br>
                 <!-- ページ内容を表示 -->
-                <!--  選択したカテゴリーに対応する記事一覧を出力する-->
-<!--  タイトルに濁音を含めないこと-->
-<ul>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="archive_list">
-    <time datetime='2015-05-22'>2015/05/22</time><br/> <a class="archive_list_article_link" href='/ios/2015/05/22/Google%20Sign-In(iOS)%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F.html'>Google Sign-In(iOS)を使ってみた</a>
-    <p class="summary">Google認証のiOS版の使い方について</p>
-    <!-- <ul class="tag_list">
-      
-      <li class="inline archive_list"><a class="category_list_link" href="/category/ios">ios</a></li>
-      
-    </ul> -->
-  </li>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-</ul>
+                <h3> 〜Node.jsとは〜 </h3>
 
+<p>サーバーサイドのJavaScript。クライアントサイドのJavaScriptとは勝手が違うが、<br>
+使い方次第ではサーバーサイド側もWebアプリ側もJavaScriptで記述できる。<br>
+主な特徴<br>
+* 重たい処理を並列で行い結果をコールバックで受け取る(ノンブロッキングI/O)<br>
+* リクエストやコールバックの発生はイベントとして扱い（登録し），そのイベントに関する処理が終わったら次のイベントを処理する(イベントループ)</p>
+
+<h3> 〜セットアップ〜 </h3>
+
+<p>1.ソースをクローンする</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git clone https://github.com/creationix/nvm.git ~/.nvm
+$ source ~/.nvm/nvm.sh
+</code></pre></div>
+<p>2.バージョンを確認し、最新のバージョンをインストールする</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ nvm ls-remote
+$ nvm install x.x.x
+</code></pre></div>
+<p>3.バージョンを確認</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ node -v
+</code></pre></div>
+<p>4.ターミナル起動時にnvmコマンドを使えるように設定</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ nvm alias default vx.x.x
+$ vi ~/.bash_profile
+//記載内容
+if [[ -s ~/.nvm/nvm.sh ]];
+ then source ~/.nvm/nvm.sh
+fi
+</code></pre></div>
+<h3> 〜実行〜 </h3>
+
+<p>1.app.jsを作成</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">var http = require(&#39;http&#39;);
+
+http.createServer(function (request, response) {
+  response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+  response.end(&#39;Hello World\n&#39;);
+}).listen(3000);//ポート番号
+</code></pre></div>
+<p>2.サーバーを立ち上げる</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ node example.js
+</code></pre></div>
+<p>3.サーバーにアクセス</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://localhost:3000
+//Hello Worldが出力されれば完了
+</code></pre></div>
             </section>
         </div>
 
